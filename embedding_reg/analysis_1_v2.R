@@ -11,10 +11,10 @@ library(tidyverse)
 ## -------
 
 ## Pre-treatment Twitter data
-load("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/trump_follower_tweets_11_21.Rda")
+load("#####")
 
 ## Post-treatment Twitter data 
-setwd("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/Updates")
+setwd("#####")
 fn <- list.files()
 load(fn[1])
 udf <- update
@@ -45,10 +45,10 @@ pre_users <- mdf1 %>%
 mdf1 <- mdf1[mdf1$user_id %in% pre_users$user_id,]
 
 ## Load pre-trained embedding space for conText
-glove <- readRDS("~/Dropbox/social_media_violence/effort_2/data/parler_video_and_comment_data/glove.rds")
+glove <- readRDS("#####")
 
 ## Load locally trained transformation matrix
-transform <- readRDS(file = "~/Dropbox/social_media_violence/effort_2/data/parler_video_and_comment_data/khodakA.rds")
+transform <- readRDS(file = "#####")
 
 
 ## -------
@@ -165,7 +165,7 @@ print(j)
 
 ## Save
 immediate_effect_df2 <- res_df
-save(immediate_effect_df2 , file = "~/Dropbox/sachs_karell_paper/trump_twitter/results/twitter_results_v2.Rdata")
+save(immediate_effect_df2 , file = "######")
 
 ## Plot df
 plot_df <- res_df %>% 
@@ -329,8 +329,7 @@ for(i in 13:length(vec)){
 
 ## Save
 # time_effect_df <- bind_rows(time_effect_df, res_df)
-# save(immediate_effect_df, time_effect_df, file = "~/Dropbox/sachs_karell_paper/trump_twitter/results/twitter_results.Rdata")
-load(file = "~/Dropbox/sachs_karell_paper/trump_twitter/results/twitter_results.Rdata")
+load(file = "######")
 
 ## Plot df
 plot_df <- time_effect_df %>% 
@@ -426,11 +425,11 @@ ggplot(plot_df) +
 # # res_df_1dy <- res_df
 # # res_df_1mo <- res_df
 # # res_df_2mo <- res_df
-# # save(res_df_1dy, res_df_1mo,  res_df_2mo, file = "~/Dropbox/sachs_karell_paper/trump_twitter/results/bal_results.Rdata")
+# # save(res_df_1dy, res_df_1mo,  res_df_2mo, file = "#######")
 # # res_df_1dy_nb <- res_df
 # # res_df_1mo_nb <- res_df
 # # res_df_2mo_nb <- res_df
-# # save(res_df_1dy_nb, file = "~/Dropbox/sachs_karell_paper/trump_twitter/results/unbal_results.Rdata")
+# # save(res_df_1dy_nb, file = "########")
 # 
 # # res_df_1dy <- res_df_1dy %>% mutate(terms = ifelse(terms == "Immigirants", "Immigrants", terms)) %>% glimpse()
 # 
@@ -614,5 +613,5 @@ ggplot(plot_df) +
 # # find_nns(term_wv_local, pre_trained = local_glove, N = 10, candidates = term_dem_local@features) # find nearest neighbors for overall target embedding
 # # sim2(x = matrix(term_wv_local, nrow = 1), y = matrix(local_glove["women",], nrow = 1), method = "cosine", norm = "l2") # we can also compare to corresponding pre-trained embedding
 # # # save
-# # save(local_corp, local_glove, local_transform, file = "~/Dropbox/proj/data/effort_2/localA.Rdata")
+# # save(local_corp, local_glove, local_transform, file = "######")
 # # 
