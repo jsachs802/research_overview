@@ -2,7 +2,7 @@
 ######################## DATA MANAGEMENT PAGE #################################
 
 # 1. MAIN NODES DATAFRAME ----------------------------------------------------
-load("~/Github/Fair-Diff-Conflicts/R-Code/DATA/nodes_df.Rda")
+load("~/Github/Fair-Diff-Conflicts/R-Code/HPC_SCRIPTS/DATA/nodes_df.Rda")
 # Loads <nodes_df> dataframe object
 
 ## Correctly specifying variables
@@ -20,12 +20,12 @@ nodes_df$usePhoneText <- as.logical(nodes_df$usePhoneText)
 
 
 # 2. MAIN EDGELIST DATAFRAME -------------------------------------------------
-load("~/Github/Fair-Diff-Conflicts/R-Code/DATA/edgelist.Rda")
+load("~/Github/Fair-Diff-Conflicts/R-Code/HPC_SCRIPTS/DATA/edgelist.Rda")
 # Loads <edgelist> dataframe object 
 
 ## 3. SECONDARY OJBECTS TO LOAD 
-load("~/Github/Fair-Diff-Conflicts/R-Code/DATA/prob_grid.Rda") ## probability grid
-load("~/Github/Fair-Diff-Conflicts/R-Code/DATA/empirical_moments.Rda") ## empirical moments 
+load("~/Github/Fair-Diff-Conflicts/R-Code/HPC_SCRIPTS/DATA/prob_grid.Rda") ## probability grid
+load("~/Github/Fair-Diff-Conflicts/R-Code/HPC_SCRIPTS/DATA/empirical_moments.Rda") ## empirical moments 
 ### Village referred to by column 
 
 # 4. CREATED INPUTS --------------------------------------------------------
@@ -40,8 +40,7 @@ vill_logit = glm(adopt ~ degree + age + edu + female + hasPhone, data = nodes_df
 n_moments <- 6 ## Number of moments in calibration model
 t <-  6
 vill <- NA
-sims <- 100
-
+sims <- 10
 
 ### CREATING NEW VARIABLES FOR STRATEGIES 
 # Likelihoods
@@ -55,23 +54,26 @@ nodes_df$both <- nodes_df$degree*nodes_df$likelihood
 ### LOGIT ESTIMATIONS
 ### Clustered Standard Errors for Full Logit Model
 # logit_full = glm(adopt ~ degree + age + edu + female + hasPhone + income + leader + distMeeting, data = nodes_df, family = binomial())
-# robust_full<- coeftest(logit_full, vcov. = vcovCL(logit_full, cluster = nodes_df$village, type = "HC1"))
+# robust_full<- coeftest(logit_full, vcov. = vcovCL(logit_full, cluster = nodes_df$village, type = "HC0"))
 # 
 # ### Restricted Models
 # logit_res1 = glm(adopt ~ degree + age + edu + female + hasPhone + income + leader, data = nodes_df, family = binomial())
-# robust_res1<- coeftest(logit_res1, vcov. = vcovCL(logit_res1, cluster = nodes_df$village, type = "HC1"))
+# robust_res1<- coeftest(logit_res1, vcov. = vcovCL(logit_res1, cluster = nodes_df$village, type = "HC0"))
 # summary(logit_res1)
 # robust_res1
 # 
 # logit_res2 = glm(adopt ~ degree + age + edu + female + hasPhone + income, data = nodes_df, family = binomial())
-# robust_res2 <- coeftest(logit_res2, vcov. = vcovCL(logit_res2, cluster = nodes_df$village, type = "HC1"))
+# robust_res2 <- coeftest(logit_res2, vcov. = vcovCL(logit_res2, cluster = nodes_df$village, type = "HC0"))
 # summary(logit_res2)
 # robust_res2
 
 # logit_res3 = glm(adopt ~ degree + age + edu + female + hasPhone, data = nodes_df, family = binomial()) # MODEL I USE
-# robust_res3 <- lmtest::coeftest(logit_res3, vcov. = sandwich::vcovCL(logit_res3, cluster = nodes_df$village, type = "HC1"))
+# robust_res3 <- lmtest::coeftest(logit_res3, vcov. = vcovCL(logit_res3, cluster = nodes_df$village, type = "HC0"))
 # summary(logit_res3)
 # robust_res3
+
+
+
 
 
 
