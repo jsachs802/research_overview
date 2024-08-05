@@ -27,6 +27,10 @@ Overall, Jeff’s research focuses on organizational flows and evaluating proble
 Connect with me on [LinkedIn](https://www.linkedin.com/in/jeffrey-sachs/).
 
 
+NOTE ON CODE:
+The projects below were added to this public repository after their completion. Not all the code is available for some projects. In these cases, the code is too dependent on data that cannot be made publicly available. That is, some code is not very useful without the data.
+
+
 ### Academic Research 
 
 1. [Fair Diffusion](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/fair_diff_readme.md) - Problem
