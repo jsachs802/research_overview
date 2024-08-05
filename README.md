@@ -29,7 +29,7 @@ Connect with me on [LinkedIn](https://www.linkedin.com/in/jeffrey-sachs/).
 
 ### Academic Research 
 
-1. [Fair Diffusion] - Problem
+1. [Fair Diffusion](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/fair_diff_readme.md) - Problem
    Short Description
    Practical Applications
    Stats: 
