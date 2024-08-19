@@ -107,7 +107,7 @@ data should be a priority for many studies analyzing online discourse.
 
 #### Logistical Code
 
-ABOUT:
+ABOUT: I've found that general coding tutorials often lack insights for common problems encountered 'in practice.' I wanted to begin a small set of tips or ideas for tasks that often surface in my work.
 
 9. [Iterating Data into an SQL Database with Python](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
    Short Description
