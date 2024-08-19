@@ -5,7 +5,7 @@ library(httpuv)
 library(textcat)
 
 ## Authentication
-source(file = "~/Desktop/Orthogonal Sampling Project/Golf/Sampling Approach/twitter_auth.R", local = TRUE) # load credentials 
+source(file = "####", local = TRUE) # load credentials 
 ## copy the bearer token 
 clipr::write_clip(bearer_token)
 auth <- rtweet_app() # initialize credentials, paste the bearer token
@@ -21,7 +21,7 @@ timeline_collect_fn <- function(users, n){
   for(i in 1:length(users)){
     
     obj[[i]] <- try(get_timeline(users[i], n, check = FALSE, token = auth))
-    
+
     if(length(obj[[i]]) > 1){
       
       tweet_id <- as.character(obj[[i]]$id)
@@ -87,24 +87,20 @@ get_timeline_unlimited <- function(users, n){
 
 
 #LOAD FOLLOWER CSV 
-csv <- read_csv("~/Desktop/Trump Tweets/trump_followers_1.csv")
+csv <- read_csv("####")
 followers <- csv$`0`
 rm(csv)
-save(followers, file = "trump_followers.Rda")
+save(followers, file = "####")
 
 
 ## Select 10000 followers randomly 
 set.seed(94389432)
 followers_samp <- sample(followers, 10000)
 followers_samp <- as.character(followers_samp)
-save(followers_samp, file = "~/Desktop/Trump Tweets/Data/followers_samp.Rda")
+save(followers_samp, file = "####")
 
 trump_fol_tweets <- get_timeline_unlimited(followers_samp, n = 200)
 
 tweets_before <- trump_fol_tweets %>% filter(textcat(full_text) == "english")
 
 save(tweets_before, file = "~/Desktop/Trump Tweets/Data/trump_follower_tweets_11_21.Rda")
-
-length(unique(tweets_before$user_id))
-
-tweets_before$full_text[1:100]
