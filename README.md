@@ -51,7 +51,7 @@ The projects below were added to this public repository after their completion. 
    Practical Applications
    Stats
    Bib cite
-6. [LLM Project](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/fair_diff_readme.md) - Problem
+6. [LLM Project](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/llm_duality_readme.md) - Problem
    Short Description
    Practical Applications
 7. [Sampling Project](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/fair_diff_readme.md) - Problem
