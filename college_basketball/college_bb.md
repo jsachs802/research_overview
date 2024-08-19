@@ -6,3 +6,9 @@ The [Main Script](https://github.com/jsachs802/research_overview/blob/main/colle
 
 [Clean Data](https://github.com/jsachs802/research_overview/blob/main/college_basketball/clean_data.py) - functions for cleaning data from College Basketball Reference.
 
+[Processing](https://github.com/jsachs802/research_overview/blob/main/college_basketball/adv_processing.py) - funcions for setting up the data for training.
+
+[Train Data](https://github.com/jsachs802/research_overview/blob/main/college_basketball/train_model.py) - functions for training data. 
+
+[Main Script](https://github.com/jsachs802/research_overview/blob/main/college_basketball/adv_game_log_pipeline.ipynb) - Notebook for training model and predicting game outcomes.
+
