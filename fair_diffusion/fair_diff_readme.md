@@ -14,12 +14,14 @@ _NOTE:_ Whenever I do a project, I create a project template which has a specifi
 
 _Calibration_: The first set of scripts are for calibrating diffusion models to empirical network diffusion data.
 
-[Calibration](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/CALIBRATION_DIFFUSION_SIM.R) - this script is used to calibrate the model to the empirical diffusion process. The actual script was run on a high performance computer that uses bash for scheduling. [Calibration2](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/CALIBRATION_DIFFUSION_SIM_Com_Args.R) script can be used with bash and takes arguments for which village (empirical network) to calibrate to from the terminal. 
+[Calibration](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/CALIBRATION_DIFFUSION_SIM.R) - this script is used to calibrate the model to the empirical diffusion process. The actual script was run on a high performance computer that uses bash for scheduling. [Calibration2](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/CALIBRATION_DIFFUSION_SIM_Com_Args.R) script can be used with bash and takes arguments for which village (empirical network) to calibrate to from the terminal. The scripts that follow in the calibration process are called by the main calibration script.
 
 [Main Data](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/MAIN_DATA_PAGE.R) - I cannot provide the actual empirical diffusion data, as I it is not mine to make public. But this script shows some of the preprocessing for configuring the empirical network data. 
 
-[Empirical Moments](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/EMPIRICAL_MOMENTS.R) - this script calculates the empirical moments of the Method of Simulated Moments from the empirical networks. 
+[Empirical Moments](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/EMPIRICAL_MOMENTS.R) - functions that calculate the empirical moments of the Method of Simulated Moments from the empirical networks. 
 
-[Simulated Moments](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/MOMENT_FUNCTIONS_E.R) - this script calculates the simulated moments of the calibrated diffusion process.
+[Simulated Moments](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/MOMENT_FUNCTIONS_E.R) - functions that calculate the simulated moments of the calibrated diffusion process.
+
+[Moment Evaluation](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/MOMENT_EVAL_FUNCTIONS_E.R) - functions that evaluate the performance of the calibration process (hyperparameter tuning) which produce results for best parameter tuning.
 
 _Strategy_: The second set of scripts allows one to run different seeding strategies on the calibrated models and measure the fairness of the outcomes.
