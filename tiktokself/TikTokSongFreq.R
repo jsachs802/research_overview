@@ -81,9 +81,4 @@ user_df <- user_id_tt_df_priv2[user_id_tt_df_priv2$music_id %in% lgbt_songs, ]
 
 user_df %>% group_by(user_id) %>% count()
 
-65900000/14546
-
-
-530/776
-
 
