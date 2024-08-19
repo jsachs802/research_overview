@@ -34,7 +34,7 @@ The projects below were added to this public repository after their completion. 
 ### Academic Research 
 
 1. [Fair Diffusion](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md)
-   Abstract:
+   - _Abstract_:
    This research investigates fairness in information spread within 14 distinct Ugandan villages, focusing on
    the distribution of information about a political participation technology. The study applies a Simulated
    Method of Moments to assess the impact of different network metrics and fairness definitions on the
