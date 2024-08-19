@@ -16,3 +16,6 @@ Data collection began prior to the date of Trump's reinstatement.
 
 Trump follower activity was monitored using a dashboard that looked like this: 
 ![Dashboard](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/Trump%20Dash.png)
+
+[Embedding Regression](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/analysis_1_v2.R) - script used to estimate embedding regression coefficients for particular keywords. 
+
