@@ -16,7 +16,7 @@ def get_data(pad: float):
     :param pad - float - number of seconds to sleep in between calls
     """
     # Load team_dict
-    with open('/Users/jeffreysachs/Documents/ncaa_predictor/team_dict.json', 'r', encoding='utf-8') as testfile:
+    with open('team_dict.json', 'r', encoding='utf-8') as testfile:
         team_dict = json.load(testfile)
 
     # Iterate and grab tables from each team 
@@ -29,7 +29,7 @@ def get_data(pad: float):
     all_team_data = pd.concat(team_dfs, ignore_index=True)
 
     # Save large table as csv
-    all_team_data.to_csv('/Users/jeffreysachs/Documents/ncaa_predictor/data/all_team_data.csv', encoding='UTF-8', index=False)
+    all_team_data.to_csv('#####', encoding='UTF-8', index=False)
     
 
 
