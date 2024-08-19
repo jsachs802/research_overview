@@ -15,4 +15,4 @@ Data collection began prior to the date of Trump's reinstatement.
 [Activity Main Script](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/trump_follower_activity.R) - script for running activity functions. 
 
 Trump follower activity was monitored using a dashboard that looked like this: 
-![Dashboard](/embedding_reg/Trump Dash.png)
+![Dashboard](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/Trump%20Dash.png)
