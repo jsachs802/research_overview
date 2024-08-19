@@ -10,4 +10,7 @@ Abstract: The COVID-19 pandemic has shifted many social worlds from in-person in
 
 [Visualization Script](https://github.com/jsachs802/research_overview/blob/main/tiktokself/TikTok%20Visual.R) - code for creating the visualization.
 
+
+#### VISUAL FROM PAPER 
+
 ![Visual](https://github.com/jsachs802/research_overview/blob/main/tiktokself/figure1.png)
