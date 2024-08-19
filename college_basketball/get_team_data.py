@@ -1,0 +1,196 @@
+
+### Lists for selecting variables 
+
+# Headers
+headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+        }
+
+# Team URL
+team_url = 'https://www.sports-reference.com'
+
+new_gl_names = [
+    'game',
+    'date',
+    'game_location',
+    'opp_team_id',
+    'game_result', 
+    'pts',
+    'opp_pts',
+    'fg', 
+    'fga',
+    'fg_pct',
+    'fg3',
+    'fg3a',
+    'fg3_pct',
+    'ft',
+    'fta',
+    'ft_pct',
+    'orb',
+    'trb',
+    'ast',
+    'stl',
+    'blk',
+    'tov',
+    'pf',
+    'blank',
+    'opp_fg',
+    'opp_fga',
+    'opp_fg_pct',
+    'opp_fg3',
+    'opp_fg3a',
+    'opp_fg3_pct',
+    'opp_ft',
+    'opp_fta',
+    'opp_ft_pct',
+    'opp_orb',
+    'opp_trb',
+    'opp_ast',
+    'opp_stl',
+    'opp_blk',
+    'opp_tov',
+    'opp_pf',]
+
+
+old_adv_gl_names = ['game', 
+                    'date', 
+                    'game_location',
+                    'opp_team_id', 
+                    'game_result', 
+                    'pts', 
+                    'opp_pts', 
+                    'ortg', 
+                    'drtg', 
+                    'pace', 
+                    'ftr', 
+                    '3par', 
+                    'ts_perc',
+                    'trb_perc',
+                    'ast_perc', 
+                    'stl_perc', 
+                    'blk_perc',
+                    'blank', 
+                    'efg_perc', 
+                    'tov_perc', 
+                    'orb_perc', 
+                    'ft_fga', 
+                    'blank',
+                    'opp_efg_perc', 
+                    'opp_tov_perc', 
+                    'opp_drb_perc',
+                    'opp_ft_fga',]
+
+new_adv_gl_names = ['game', 
+                    'date', 
+                    'game_location',
+                    'opp_team_id', 
+                    'game_result', 
+                    'pts', 
+                    'opp_pts', 
+                    'ortg', 
+                    'drtg', 
+                    'pace', 
+                    'ftr', 
+                    '3par', 
+                    'ts_perc',
+                    'trb_perc',
+                    'ast_perc', 
+                    'stl_perc', 
+                    'blk_perc', 
+                    'efg_perc', 
+                    'tov_perc', 
+                    'orb_perc', 
+                    'ft_fga', 
+                    'opp_efg_perc', 
+                    'opp_tov_perc', 
+                    'opp_drb_perc',
+                    'opp_ft_fga',]
+
+old_s_names = ['game',
+    'date',
+    'time',
+    'type',
+    'game_location',
+    'opp_team_id', 
+    'conf', 
+    'srs',
+    'game_result', 
+    'pts', 
+    'opp_pts',
+    'overtimes',
+    'wins',
+    'losses',
+    'streak',
+    'arena',
+    'school',]
+
+
+# New column names for 
+new_s_names = [
+    'game',
+    'date',
+    'time',
+    'type',
+    'game_location',
+    'opp_team_id', 
+    'conf', 
+    'srs',
+    'game_result', 
+    'pts', 
+    'opp_pts',
+    'overtimes',
+    'wins',
+    'losses',
+    'streak',
+    'arena',
+    'school',
+]
+
+
+# Variable selection lists 
+
+# Schedule 
+schedule_sel = ['game', 'srs', 'overtimes', 'streak', 'wins', 'losses']
+
+schedul_sel_upcoming = ['game', 'date', 'school', 'opp_team_id', 'srs', 'game_location']
+
+# Game Logs
+game_log_sel = [
+    'game',
+    'opp_team_id',
+    'game_result', 
+    'pts',
+    'opp_pts',
+    'fg', 
+    'fga',
+    'fg_pct',
+    'fg3',
+    'fg3a',
+    'fg3_pct',
+    'ft',
+    'fta',
+    'ft_pct',
+    'orb',
+    'trb',
+    'ast',
+    'stl',
+    'blk',
+    'tov',
+    'pf',
+    'opp_fg',
+    'opp_fga',
+    'opp_fg_pct',
+    'opp_fg3',
+    'opp_fg3a',
+    'opp_fg3_pct',
+    'opp_ft',
+    'opp_fta',
+    'opp_ft_pct',
+    'opp_orb',
+    'opp_trb',
+    'opp_ast',
+    'opp_stl',
+    'opp_blk',
+    'opp_tov',
+    'opp_pf',]
+
