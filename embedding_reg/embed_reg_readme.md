@@ -9,3 +9,10 @@ Abstract: How does social media content affect users’ online discourse? Existi
 Data collection began prior to the date of Trump's reinstatement. 
 
 [Collection](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/trump_collect_tweets.R) - script for collecting Tweets [DEPRECATED: Package used for collecting from Twitter no longer functional since switch to X]
+
+[Activity Functions](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/trump_activity_functions.R) - functions for collecting and monitoring user activity of trump followers.
+
+[Activity Main Script](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/trump_follower_activity.R) - script for running activity functions. 
+
+Trump follower activity was monitored using a dashboard that looked like this: 
+![Dashboard](/embedding_reg/Trump Dash.png)
