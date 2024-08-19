@@ -54,7 +54,7 @@ The projects below were added to this public repository after their completion. 
 6. [LLM Project](https://github.com/jsachs802/research_overview/blob/main/llm_duality/llm_duality_readme.md) - Problem
    Short Description
    Practical Applications
-7. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_sampling_readme.md) - Problem
+7. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
    Short Description
    Practical Applications
 
