@@ -38,11 +38,11 @@ The projects below were added to this public repository after their completion. 
    Practical Applications
    Stats: 
    Bib cite
-2. [The Tik Tok Self](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/tiktokself.md) - Problem
+2. [The Tik Tok Self](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/tiktok_readme.md) - Problem
    Short Description
    Practical Applications
    Bib cite
-3. [Embedding Regression](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/embedding_reg.md) - Problem
+3. [Embedding Regression](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/embedding_reg_readme.md) - Problem
    Short Description
    Practical Applications
    Bib cite
