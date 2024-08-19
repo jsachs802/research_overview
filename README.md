@@ -36,11 +36,11 @@ The projects below were added to this public repository after their completion. 
 1. [Fair Diffusion](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md): This study examines fairness in information distribution across 14 Ugandan villages, analyzing how network metrics and a new fairness definition affect the spread of political participation technology. While the new metric improves fairness predictions, it reduces efficiency, highlighting the challenge of balancing fairness and efficiency in complex systems.
 
 
-3. [The Tik Tok Self](https://github.com/jsachs802/research_overview/blob/main/tiktokself/tiktok_readme.md): This study visualizes a rise in "coming out" videos on TikTok during 2020, attributing it to users finding more agreeable online spaces during the pandemic. It highlights the positive impact of online environments in fostering self-expression and introduces a new dataset of 4.8 million TikTok videos for further research.
+2. [The Tik Tok Self](https://github.com/jsachs802/research_overview/blob/main/tiktokself/tiktok_readme.md): This study visualizes a rise in "coming out" videos on TikTok during 2020, attributing it to users finding more agreeable online spaces during the pandemic. It highlights the positive impact of online environments in fostering self-expression and introduces a new dataset of 4.8 million TikTok videos for further research.
 
-5. [Embedding Regression](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/embed_reg_readme.md): This study examines how the symbolic meaning of social media content, specifically Donald Trump's Twitter reinstatement, influences online discourse. It found that the reinstatement shifted discussions about identity-based groups like Black and Jewish people, leading to a short-lived politicization of the discourse. The research highlights the importance of distinguishing between content's lexical and symbolic dimensions.
+3. [Embedding Regression](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/embed_reg_readme.md): This study examines how the symbolic meaning of social media content, specifically Donald Trump's Twitter reinstatement, influences online discourse. It found that the reinstatement shifted discussions about identity-based groups like Black and Jewish people, leading to a short-lived politicization of the discourse. The research highlights the importance of distinguishing between content's lexical and symbolic dimensions.
   
-6. [Group Fairness on Networks](https://github.com/jsachs802/research_overview/blob/main/group_fairness/group_fairness.md)
+4. [Group Fairness on Networks](https://github.com/jsachs802/research_overview/blob/main/group_fairness/group_fairness.md)
    - _Abstract_: An increasing amount of work studies fairness in socio-technical settings from a computational perspective. This work has introduced a variety of metrics to measure fairness in different settings. Most of these metrics, however, do not account for the interactions between individuals or evaluate any underlying network's effect on the outcomes measured. While a wide body of work studies the organization of individuals into a network structure and how individuals access resources in networks, the impact of network structure on fairness has been largely unexplored.
 We introduce templates for group fairness metrics that account for network structure. More specifically, we present two types of group fairness metrics that measure distinct yet complementary forms of bias in networks. The first type of metric evaluates how access to others in the network is distributed across groups. The second type of metric evaluates how groups distribute their interactions across other groups, and hence captures inter-group biases. We find that ignoring the network can lead to spurious fairness evaluations by either not capturing imbalances in influence and reach illuminated by the first type of metric, or by overlooking interaction biases as evaluated by the second type of metric. Our empirical study illustrates these pronounced differences between network and non-network evaluations of fairness.
 
@@ -48,10 +48,14 @@ Short Description:
 
 This study introduces group fairness metrics that account for network structure, addressing biases in how individuals access others and interact across groups. It shows that ignoring network effects can lead to misleading fairness evaluations, highlighting the importance of considering network structure in socio-technical fairness assessments.
   
-8. [LLM Project](https://github.com/jsachs802/research_overview/blob/main/llm_duality/llm_duality_readme.md)
+5. [LLM Project](https://github.com/jsachs802/research_overview/blob/main/llm_duality/llm_duality_readme.md)
    - _Abstract_: The development of generative artificial intelligence (genAI) has caused concern about its potential risks, including how its ability to generate human-like texts could affect our shared perception of the social world. Yet, it remains unclear how best to assess and understand the genAI’s influence on our understanding of social reality. Building on insights into the representation of social worlds within texts, we take initial steps towards developing a framework for genAI’s content and its consequences for perceptions of social reality. We demonstrate our “synthetic duality” framework in two parts. First, we show that genAI can create, with minimal guidance, reasonable portrayals of actors and ascribe relational meaning to those actors – virtual social worlds within texts, or “Mondo-Breigers”. Second, we examine how these synthetic documents with interior social worlds affect readers’ view of social reality. We find that they change individuals’ perceptions of actors depicted in the documents, likely by updating individuals’ expectations about the actors and their meanings. However, additional exploratory analyses suggest it is models’ style, not their construction of “Mondo-Breigers”, that might be influencing people’s perceptions. We end with a discussion of theoretical and methodological implications, including how genAI may unsettle structural notions of individuality. Namely, reimagining the duality of individuals and groups could help theorize growing homogeneity in an increasingly genAI-informed world.
+  
+Short Description: 
 
-12. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md)
+This study introduces a "synthetic duality" framework to assess how generative AI influences perceptions of social reality. It finds that AI-generated texts can alter individuals' views of depicted actors but suggests that style, rather than content, might drive these changes. The work explores implications for understanding individuality in a genAI-informed world.
+
+6. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md)
     - _Abstract_: Social scientists studying contemporary public debates, discourses, and
 sentiments often turn to social media platforms for data. They typically
 collect these data by querying platforms' application program interfaces
@@ -79,10 +83,12 @@ effects on properties that are characteristics of a representative sample,
 suggesting that mitigating sampling bias when collecting social media
 data should be a priority for many studies analyzing online discourse.
 
-#### Other Projects 
 7. [Topic Models & Visualizations](https://github.com/jsachs802/research_overview/blob/main/bert_modeling/bert_model.md) - Problem
    Short Description
    Practical Applications
+
+#### Other Projects 
+
 8. [College Basketball predictor](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
    Short Description
    Practical Applications
