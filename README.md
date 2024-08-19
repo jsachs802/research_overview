@@ -38,23 +38,23 @@ The projects below were added to this public repository after their completion. 
    Practical Applications
    Stats: 
    Bib cite
-2. [The Tik Tok Self] - Problem
+2. [The Tik Tok Self](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/fair_diff_readme.md) - Problem
    Short Description
    Practical Applications
    Bib cite
-3. [Embedding Regression] - Problem
+3. [Embedding Regression](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/fair_diff_readme.md) - Problem
    Short Description
    Practical Applications
    Bib cite
-4. [Group Fairness on Networks] - Problem
+4. [Group Fairness on Networks](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/fair_diff_readme.md) - Problem
    Short Description
    Practical Applications
    Stats
    Bib cite
-5. [LLM Project] - Problem
+5. [LLM Project](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/fair_diff_readme.md) - Problem
    Short Description
    Practical Applications
-6. [Sampling Project] - Problem
+6. [Sampling Project](https://github.com/jsachs802/research_overview/edit/main/fair_diffusion/fair_diff_readme.md) - Problem
    Short Description
    Practical Applications
 
