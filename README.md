@@ -98,10 +98,10 @@ suggesting that mitigating sampling bias when collecting social media
 data should be a priority for many studies analyzing online discourse.
 
 #### Other Projects 
-8. [Topic Models & Visualizations](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+7. [Topic Models & Visualizations](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
    Short Description
    Practical Applications
-9. [College Basketball predictor](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+8. [College Basketball predictor](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
    Short Description
    Practical Applications
 
@@ -109,15 +109,19 @@ data should be a priority for many studies analyzing online discourse.
 
 ABOUT:
 
-10. [Iterating Data into an SQL Database with Python](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+9. [Iterating Data into an SQL Database with Python](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
    Short Description
    Practical Applications
 
-11. [Editing Large SQL Files from the Terminal](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+10. [Editing Large SQL Files from the Terminal](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
    Short Description
    Practical Applications
 
-12. [Creating Small Applications for Data Science Tasks](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+11. [Creating Small Applications for Data Science Tasks](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+   Short Description
+   Practical Applications
+
+12. [Project Setup Template using Bash Script](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
    Short Description
    Practical Applications
 
