@@ -62,7 +62,7 @@ examine how the symbolic meanings conveyed by Twitter’s reinstatement of Donal
  discursive shift was short-lived. The authors’ findings contribute conceptual and analytical clarity to the socio-semantic dynamics of online discourse, encouraging future research to distinguish and compare the 
    lexical and symbolic dimensions of online content. 
   
-6. [Group Fairness on Networks](https://github.com/jsachs802/research_overview/blob/main/group_fairness/group_fairness_readme.md) - Problem
+6. [Group Fairness on Networks](https://github.com/jsachs802/research_overview/blob/main/group_fairness/group_fairness.md) - Problem
    Short Description
    Practical Applications
    Stats
