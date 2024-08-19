@@ -33,28 +33,28 @@ The projects below were added to this public repository after their completion. 
 
 ### Academic Research 
 
-1. [Fair Diffusion](https://github.com/jsachs802/research_overview/main/fair_diffusion/fair_diff_readme.md) - Problem
+1. [Fair Diffusion](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md) - Problem
    Short Description
    Practical Applications
    Stats: 
    Bib cite
-2. [The Tik Tok Self](https://github.com/jsachs802/research_overview/main/fair_diffusion/tiktok_readme.md) - Problem
+3. [The Tik Tok Self](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/tiktok_readme.md) - Problem
    Short Description
    Practical Applications
    Bib cite
-3. [Embedding Regression](https://github.com/jsachs802/research_overview/main/fair_diffusion/embedding_reg_readme.md) - Problem
+4. [Embedding Regression](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/embedding_reg_readme.md) - Problem
    Short Description
    Practical Applications
    Bib cite
-5. [Group Fairness on Networks](https://github.com/jsachs802/research_overview/main/fair_diffusion/fair_diff_readme.md) - Problem
+5. [Group Fairness on Networks](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md) - Problem
    Short Description
    Practical Applications
    Stats
    Bib cite
-6. [LLM Project](https://github.com/jsachs802/research_overview/main/fair_diffusion/llm_duality_readme.md) - Problem
+6. [LLM Project](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/llm_duality_readme.md) - Problem
    Short Description
    Practical Applications
-7. [Sampling Project](https://github.com/jsachs802/research_overview/main/fair_diffusion/fair_diff_readme.md) - Problem
+7. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md) - Problem
    Short Description
    Practical Applications
 
