@@ -8,7 +8,7 @@ Article - link to the draft of the research from my dissertation.
 
 Currently, the article is being revised for submission to a peer-reviewed publication. 
 
-### CODE 
+#### CODE 
 
 NOTE: Whenever I do a project, I create a project template which has a specific root/path setup (See here for instructions on how to do this). The scripts found here often rely on linkages to eachother, but I have redacted the paths since potential users will probably not have the same directory setup. For this reason, configuring the scripts to work with eachother will require you to reestablish the paths.  
 
