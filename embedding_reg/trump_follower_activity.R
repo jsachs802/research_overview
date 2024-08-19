@@ -5,11 +5,11 @@ library(httpuv)
 library(textcat)
 
 ## Authentication
-source(file = "~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/twitter_auth.R", local = TRUE) # load credentials 
+source(file = "####", local = TRUE) # load credentials 
 auth <- rtweet_app(bearer_token) # initialize credentials, paste the bearer token
 
 ### Tweet Collection Functions
-source(file = "~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/trump_activity_functions.R", local = TRUE) # load credentials 
+source(file = "trump_collect_tweets.R", local = TRUE) # load credentials 
 
 start <- Sys.time()
 ## Run Function for Update
