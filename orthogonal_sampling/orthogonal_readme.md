@@ -21,7 +21,7 @@ Scripts for [Data Cleaning](https://github.com/jsachs802/research_overview/blob/
 [Step 4](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/step_four_collect_tweets.R) - functions for collecting tweets. 
 
 
-#### ESTIMATION AND TESTING
+#### Estimation and Robustness Checks
 
 [Estimation](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/estimation.R) - functions for estimating capture probability.
 
