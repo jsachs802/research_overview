@@ -42,7 +42,7 @@ The projects below were added to this public repository after their completion. 
    Short Description
    Practical Applications
    Bib cite
-4. [Embedding Regression](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/embedding_reg_readme.md) - Problem
+4. [Embedding Regression](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/embed_reg_readme.md) - Problem
    Short Description
    Practical Applications
    Bib cite
