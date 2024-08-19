@@ -55,25 +55,12 @@ The projects below were added to this public repository after their completion. 
 
 ABOUT: I've found that general coding tutorials often lack insights for common problems encountered 'in practice.' I wanted to begin a small set of tips or ideas for tasks that often surface in my work.
 
-9. [Iterating Data into an SQL Database with Python](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
-   Short Description
-   Practical Applications
+9. [Iterating Data into an SQL Database with Python](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md): Loading data sequentially into an SQL database in chunks for memory management. 
 
-10. [Editing Large SQL Files from the Terminal](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
-   Short Description
-   Practical Applications
+10. [Editing Large SQL Files from the Terminal](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md): Making required changes to large scripts (e.g., a large SQL script) that cannot be loaded into memory entirely due to memory limitations.
 
-11. [Creating Small Applications for Data Science Tasks](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
-   Short Description
-   Practical Applications
+11. [Project Setup Template using Bash Script](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md): Automate the build of new project setups: environment, directories, git init, and coding libraries using bash scripts that can easily be changed for specific needs.
 
-12. [Project Setup Template using Bash Script](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
-   Short Description
-   Practical Applications
-
-13. [Automating Unzipping](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
-   Short Description
-   Practical Applications
 
 
 
