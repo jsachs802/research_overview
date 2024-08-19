@@ -82,10 +82,10 @@ get_timeline_fn2 <- function(user, n){
 
 
 user_activity_fn <- function(n){
-  load("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/users.Rda") ## load users 
+  load("####") ## load users 
   # users <- users[350:360] ### FOR TESTING A BUG - REMOVE IN REGULAR USE
-  load("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/trump_follower_tweets_11_21.Rda") ## load initial tweet dataframe 
-  updates <- list.files("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/Updates/") ### dfs from previous activity checks
+  load("#####") ## load initial tweet dataframe 
+  updates <- list.files("#####") ### dfs from previous activity checks
   user_tibs <- vector(mode = "list", length = length(users))
   update_list <- vector(mode = "list", length = length(users))
   
@@ -94,7 +94,7 @@ user_activity_fn <- function(n){
     update_files_list <- vector(mode = "list", length = length(updates))
     for(i in 1:length(updates)){
       
-      load(paste0("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/Updates/update_", i, ".Rda"))
+      load(paste0("####", i, ".Rda"))
       update_files_list[[i]] <- update
       rm(update)
       
@@ -139,13 +139,13 @@ user_activity_fn <- function(n){
   
   update_list2 <- update_list[lapply(update_list, length) > 0] ## remove empty cells if any
   update <- data.table::rbindlist(update_list2) ## create update df 
-  save(update, file = paste0("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/Updates/update_", length(updates) + 1, ".Rda"))
+  save(update, file = paste0("####", length(updates) + 1, ".Rda"))
   user_tib <- data.table::rbindlist(user_tibs)
   
   ### saving update summary
-  update_summaries <- list.files("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/Update summaries") ### dfs from previous activity checks
+  update_summaries <- list.files("####") ### dfs from previous activity checks
   user_update = user_tib
-  save(user_update, file = paste0("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/Update summaries/user_update_", length(update_summaries) + 1, ".Rda"))
+  save(user_update, file = paste0("####", length(update_summaries) + 1, ".Rda"))
   
   # ## return tibble
   # return(user_tib)
@@ -155,10 +155,10 @@ user_activity_fn <- function(n){
 
 activity_summary_fn <- function(type = "plot"){
   
-  filenames <- list.files("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/Update summaries")
+  filenames <- list.files("#####")
   update_list <- vector(mode = "list", length = length(filenames) + 1)
   for(i in 1:length(filenames)){
-    load(paste0("~/Dropbox/sachs_karell_paper/trump_twitter/Trump Tweets/Data/Update summaries/user_update_", i, ".Rda"))
+    load(paste0("#####", i, ".Rda"))
     update_list[[i]] <- user_update
     rm(user_update)
     
