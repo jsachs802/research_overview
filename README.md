@@ -83,13 +83,17 @@ effects on properties that are characteristics of a representative sample,
 suggesting that mitigating sampling bias when collecting social media
 data should be a priority for many studies analyzing online discourse.
 
-7. [Topic Models & Visualizations](https://github.com/jsachs802/research_overview/blob/main/bert_modeling/bert_model.md) - Problem
+Short Description: 
+
+This study introduces an "orthogonal sampling approach" to reduce bias in social media data collection, improving the accuracy of discourse prevalence estimates. The method treats discursive spaces geometrically to ensure more representative samples, addressing the limitations of traditional topic-based sampling that often skews results due to inherent biases in API querying.
+
+7. [Wildfire Communication Landscape](https://github.com/jsachs802/research_overview/blob/main/bert_modeling/bert_model.md): Some initial modeling and visualizations for an ongoing project with the USDA Forest Service. Part of several communications projects within the Wildfire Crisis Strategy (WCS). 
    Short Description
    Practical Applications
 
 #### Other Projects 
 
-8. [College Basketball predictor](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+8. [College Basketball predictor](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md): Last year, I attempted to created a prediction model for college basketball games. It was relatively accurate for in-conference play (~75%) and did a horrible job of selecting my bracket. This was put together with not much time left in last year's season. For the 2024/25 season, I plan to build a new an improved predictor using deep learning and play-by-play simulation. 
    Short Description
    Practical Applications
 
