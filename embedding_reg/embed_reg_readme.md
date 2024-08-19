@@ -8,4 +8,4 @@ Abstract: How does social media content affect users’ online discourse? Existi
 
 Data collection began prior to the date of Trump's reinstatement. 
 
-[Collection](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/trump_collect_tweets.R) - script for collecting Tweets [DEPRECATED][Package used for collecting from Twitter no longer functional since switch to X]
+[Collection](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/trump_collect_tweets.R) - script for collecting Tweets [DEPRECATED: Package used for collecting from Twitter no longer functional since switch to X]
