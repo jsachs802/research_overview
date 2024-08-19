@@ -49,7 +49,7 @@ The projects below were added to this public repository after their completion. 
 
 #### Other Projects 
 
-8. [College Basketball predictor](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md): Last year, I attempted to created a prediction model for college basketball games. It was relatively accurate for in-conference play (~75%) and did a horrible job of selecting my bracket. This was put together with not much time left in last year's season. For the 2024/25 season, I plan to build a new an improved predictor using deep learning and play-by-play simulation.
+8. [College Basketball predictor](https://github.com/jsachs802/research_overview/blob/main/college_basketball/college_bb.md): Last year, I attempted to created a prediction model for college basketball games. It was relatively accurate for in-conference play (~75%) and did a horrible job of selecting my bracket. This was put together with not much time left in last year's season. For the 2024/25 season, I plan to build a new an improved predictor using deep learning and play-by-play simulation.
    
 #### Logistical Code
 
