@@ -6,7 +6,7 @@ Abstract: This research investigates fairness in information spread within 14 di
 
 Article - link to the draft of the research from my dissertation. 
 
-Currently, the article is being revised for submission to a peer-reviewed publication. 
+_NOTE:_ Currently, the article is being revised for submission to a peer-reviewed publication. 
 
 #### CODE 
 
