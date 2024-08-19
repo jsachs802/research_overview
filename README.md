@@ -33,11 +33,19 @@ The projects below were added to this public repository after their completion. 
 
 ### Academic Research 
 
-1. [Fair Diffusion](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md) - Problem
-   Short Description
-   Practical Applications
-   Stats: 
-   Bib cite
+1. [Fair Diffusion](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md)
+   Abstract:
+   This research investigates fairness in information spread within 14 distinct Ugandan villages, focusing on
+   the distribution of information about a political participation technology. The study applies a Simulated
+   Method of Moments to assess the impact of different network metrics and fairness definitions on the
+   spread of information across male and female villagers. Initial findings highlight significant differences
+   in the likelihood of achieving fair outcomes with various interventions. Although some fair strategies
+   show slight improvements, they still exhibit low probabilities of fair outcomes. The introduction of a
+   new fairness definition, Seed Average x Coverage Fairness, enhances the prediction of fair outcomes
+   across many network metrics, albeit with a trade-off in the efficiency of information spread. The research
+   underscores the difficulty of controlling outcomes in a complex system, and the dynamics of efficiency
+   and fairness, demonstrating that context plays a vital role for these processes. 
+
 3. [The Tik Tok Self](https://github.com/jsachs802/research_overview/blob/main/tiktokself/tiktok_readme.md) - Problem
    Short Description
    Practical Applications
@@ -57,6 +65,33 @@ The projects below were added to this public repository after their completion. 
 7. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
    Short Description
    Practical Applications
+
+
+#### Other Projects 
+8. [Topic Models & Visualizations](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+   Short Description
+   Practical Applications
+9. [College Basketball predictor](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+   Short Description
+   Practical Applications
+
+#### Logistical Code
+
+ABOUT:
+
+10. [Iterating Data into an SQL Database with Python](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+   Short Description
+   Practical Applications
+
+11. [Editing Large SQL Files from the Terminal](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+   Short Description
+   Practical Applications
+
+12. [Creating Small Applications for Data Science Tasks](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+   Short Description
+   Practical Applications
+
+
 
 
 
