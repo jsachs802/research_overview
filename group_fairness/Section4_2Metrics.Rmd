@@ -1,0 +1,1329 @@
+---
+title: "Type 1 and Type 2 Metrics on Add Health Network (SECTION 4.2)"
+date: "1/30/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## Required Packages 
+```{r}
+library(tidyverse)
+library(data.table)
+library(igraph)
+library(rvest)
+```
+
+
+### Download Network Data and Apply Attributes
+```{r include = FALSE}
+
+###vector of html pages with addhealth network data
+comms <- as_vector(lapply(1:84, function(x){paste0("http://moreno.ss.uci.edu/comm", x, ".dat")}))
+comms_att <- as_vector(lapply(1:84, function(x){paste0("http://moreno.ss.uci.edu/comm", x, "_att.dat")}))
+
+
+##initialize school and school attlists
+school <- vector(mode = "list", length = 84)
+school_att <- vector(mode = "list", length = 84)
+
+for(i in c(1:47, 49:84)){## skip 48: missing webpage
+  
+  ### scraping network data
+  school[[i]] <- read_html(comms[i]) %>% html_text() %>% fread(., col.names = c("node_i", "node_j", "weight"))
+  school_att[[i]] <- read_html(comms_att[i]) %>% html_text() %>% fread(.)
+}
+
+
+## remove the 48th NULL element
+school <- school[-48]
+school_att <- school_att[-48]
+
+
+## intialize edge list and graph lists 
+el <- vector(mode = "list", length = 83)
+g <- vector(mode = "list", length = 83)
+
+
+
+### clean tables 
+for(i in 1:83){
+  
+  #cleaning attribute tables
+  school_att[[i]]$id <- 1:nrow(school_att[[i]])
+  if(length(school_att[[i]]) == 4){
+    colnames(school_att[[i]]) <- c("sex", "race", "grade", "id")
+  }else{
+    colnames(school_att[[i]]) <- c("sex", "race", "grade", "school", "id")
+  }
+  
+  ### creating edge lists 
+  # skip header, first two columns
+  el[[i]] <- as.matrix(school[[i]][-1,1:2])
+  
+  # undirected graphs
+  g[[i]] <- graph_from_edgelist(as.matrix(el[[i]][, 1:2]), directed = T)
+  
+  ### set attributes of graph nodes
+  # race
+  for(x in 0:5){
+    g[[i]] <- set_vertex_attr(g[[i]], "race", index = school_att[[i]]$id[school_att[[i]]$race == x], x)
+  }
+}
+
+```
+
+### Explore Network Data - Case Choice
+```{r}
+
+### create table that describes each graph 
+c <- NA # graph 
+num <- NA # number
+num_nodes <- NA # number of nodes in graph
+num_edges <- NA # number of edges
+white <- NA # percentage of pop white
+black <- NA # percentage of pop black 
+hispanic <- NA # percentage of pop hispanic 
+asian <- NA # percentage of pop asian 
+mixed <- NA # percentage of pop mixed 
+unreported_pop <- NA # number of nodes unreplrted
+diameter <- NA # average diameter
+white_pop <- NA # number of nodes white
+black_pop <- NA # number of nodes black
+hispanic_pop <- NA # number of nodes hispanic
+asian_pop <- NA # number of nodes asian
+mixed_pop <- NA # number of nodes mixed
+
+## Graphs missing data: 1, 35
+## generate group vectors for comparative centrality measures
+
+for(i in c(2:34, 36:83)){
+  c[i] <- paste("graph")
+  num[i] <- i
+  num_nodes[i] <- length(V(g[[i]]))
+  num_edges[i] <- length(E(g[[i]]))
+  white[i] <- length(V(g[[i]])[V(g[[i]])$race == 1])/length(V(g[[i]]))
+  black[i] <- length(V(g[[i]])[V(g[[i]])$race == 2])/length(V(g[[i]]))
+  hispanic[i] <- length(V(g[[i]])[V(g[[i]])$race == 3])/length(V(g[[i]]))
+  asian[i] <- length(V(g[[i]])[V(g[[i]])$race == 4])/length(V(g[[i]]))
+  mixed[i] <- length(V(g[[i]])[V(g[[i]])$race == 5])/length(V(g[[i]]))
+  white_pop[i] <- length(V(g[[i]])[V(g[[i]])$race == 1])
+  black_pop[i] <- length(V(g[[i]])[V(g[[i]])$race == 2])
+  hispanic_pop[i] <- length(V(g[[i]])[V(g[[i]])$race == 3])
+  asian_pop[i] <- length(V(g[[i]])[V(g[[i]])$race == 4])
+  mixed_pop[i] <- length(V(g[[i]])[V(g[[i]])$race == 5])
+  unreported_pop[i] <- length(V(g[[i]])[V(g[[i]])$race == 0])
+  diameter[i] <- diameter(g[[i]], directed = FALSE)
+}
+
+
+g_df <- data_frame(c, num, num_nodes, num_edges, white, black, hispanic, asian, mixed, unreported_pop, white_pop, black_pop, hispanic_pop, asian_pop, mixed_pop, diameter)
+
+graph_set <- g_df %>% filter(white > 0.1 & black > 0.1 & hispanic > 0.1 & asian > 0.1 & mixed > 0.1) # filter graphs to graphs where pop is at least 10% each racial group
+
+graph_set ### shows number of graphs satisfying this criterion
+
+graph <- g[[24]] # set only graph as graph object
+
+```
+### Section 4.2 Cross-Group Out-Degree
+```{r}
+
+#### Initialize vectors/objects 
+white <- NA # vector of white nodes
+black <- NA # vector of black nodes
+hispanic <- NA # vector of hispanic nodes
+asian <- NA # vector of asian nodes
+mixed <- NA # vector of mixed nodes
+g_adj <- NA # adjacency matrix of graph 
+white_black <- NA # subset of adj - white nodes to black nodes 
+black_white <- NA # subset of adj - black nodes to white nodes 
+white_hispanic <- NA # subset of adj - white nodes to hispanic nodes 
+hispanic_white <- NA # subset of adj - hispanic nodes to white nodes 
+white_asian <- NA # subset of adj - white nodes to asian nodes 
+asian_white <- NA # subset of adj - asian nodes to white nodes 
+white_mixed <- NA # subset of adj - white nodes to mixed nodes 
+mixed_white <- NA # subset of adj - mixed nodes to white nodes 
+black_hispanic <- NA # subset of adj - black nodes to hispanic nodes 
+hispanic_black <- NA # subset of adj - hispanic nodes to black nodes 
+black_asian <- NA # subset of adj - black nodes to asian nodes 
+asian_black <- NA # subset of adj - asian nodes to black nodes 
+black_mixed <- NA # subset of adj - black nodes to mixed nodes 
+mixed_black <- NA # subset of adj - mixed nodes to black nodes 
+hispanic_asian <- NA # subset of adj - hispanic nodes to asian  nodes 
+asian_hispanic <- NA # subset of adj - asian nodes to hispanic nodes 
+hispanic_mixed <- NA # subset of adj - hispanic nodes to mixed nodes 
+mixed_hispanic <- NA # subset of adj - mixed nodes to hispanic nodes 
+asian_mixed <- NA # subset of adj - asian nodes to mixed nodes 
+mixed_asian <- NA # subset of adj - mixed nodes to asian nodes 
+white_white <- NA # subset of adj - white nodes to white nodes 
+black_black <- NA # subset of adj - black nodes to black nodes 
+hispanic_hispanic <- NA # subset of adj - hispanic nodes to hispanic nodes 
+asian_asian <- NA # subset of adj - asian nodes to asian nodes 
+mixed_mixed <- NA # subset of adj - mixed nodes to mixed nodes 
+
+  ##vectors of vertices belonging to each racial group
+  white <- V(graph)[V(graph)$race == 1] # set vector of white nodes
+  black <- V(graph)[V(graph)$race == 2] # set vector of black nodes
+  hispanic <- V(graph)[V(graph)$race == 3] # set vector of hispanic nodes
+  asian <- V(graph)[V(graph)$race == 4] # set vector of asian nodes
+  mixed <- V(graph)[V(graph)$race == 5] # set vector of mixed nodes
+  
+  ## adjacency matrix for each graph 
+  graph_adj <- as_adjacency_matrix(graph) # turn graph object into adj_mat
+  g_adj <- as.matrix(graph_adj) # turn adj_mat object into matrix 
+  
+  ##derive bipartite from adjacency matrix
+  white_white <- g_adj[white, white] # adj subset from <racial group>  to <racial group> 
+  black_black <- g_adj[black, black]
+  hispanic_hispanic <- g_adj[hispanic, hispanic]
+  asian_asian <- g_adj[asian, asian]
+  mixed_mixed <- g_adj[mixed, mixed]
+  
+  white_black<- g_adj[white, black]
+  black_white <- g_adj[black, white]
+  
+  white_hispanic <- g_adj[white, hispanic]
+  hispanic_white <- g_adj[hispanic, white]
+  
+  white_asian <- g_adj[white, asian]
+  asian_white <- g_adj[asian, white]
+  
+  white_mixed <- g_adj[white, mixed]
+  mixed_white <- g_adj[mixed, white]
+  
+  black_hispanic <- g_adj[black, hispanic]
+  hispanic_black <- g_adj[hispanic, black]
+  
+  black_asian <- g_adj[black, asian]
+  asian_black <- g_adj[asian, black]
+  
+  black_mixed <- g_adj[black, mixed]
+  mixed_black <- g_adj[mixed, black]
+  
+  hispanic_asian <- g_adj[hispanic, asian]
+  asian_hispanic <- g_adj[asian, hispanic]
+  
+  hispanic_mixed <- g_adj[hispanic, mixed]
+  mixed_hispanic <- g_adj[mixed, hispanic]
+  
+  asian_mixed <- g_adj[asian, mixed]
+  mixed_asian <- g_adj[mixed, asian]
+
+
+### set up group_to_group relations 
+  
+## create vector of 1s for number of columns in bipartite 
+  ## initialize vectors 
+  white_col <- NA
+  black_col <- NA
+  hispanic_col <- NA
+  asian_col <- NA
+  mixed_col <- NA
+  
+  white_col <- rep(1, length(white)) # vector of 1's length of <racial group> pop
+  black_col <- rep(1, length(black))
+  hispanic_col <- rep(1, length(hispanic))
+  asian_col <- rep(1, length(asian))
+  mixed_col <- rep(1, length(mixed))
+
+
+## calculate total out degree for each racial group pair 
+## initialize variables 
+white_black_deg <- NA # <racial group> to <racial group> out-degree for each node
+black_white_deg <- NA
+white_hispanic_deg <- NA
+hispanic_white_deg <- NA
+white_asian_deg <- NA
+asian_white_deg <- NA
+white_mixed_deg <- NA
+mixed_white_deg <- NA
+black_hispanic_deg <- NA
+hispanic_black_deg <- NA
+black_asian_deg <- NA
+asian_black_deg <- NA
+black_mixed_deg <- NA
+mixed_black_deg <- NA
+hispanic_asian_deg <- NA
+asian_hispanic_deg <- NA
+hispanic_mixed_deg <- NA
+mixed_hispanic_deg <- NA
+asian_mixed_deg <- NA
+mixed_asian_deg <- NA
+white_white_deg <- NA
+black_black_deg <- NA
+hispanic_hispanic_deg <- NA
+asian_asian_deg <- NA
+mixed_mixed_deg <- NA
+
+# initialize veriables 
+white_black_tot <- NA #<racial group> to <racial group> total out-degree 
+black_white_tot <- NA
+white_hispanic_tot <- NA
+hispanic_white_tot <- NA
+white_asian_tot <- NA
+asian_white_tot <- NA
+white_mixed_tot <- NA
+mixed_white_tot <- NA
+black_hispanic_tot <- NA
+hispanic_black_tot <- NA
+black_asian_tot <- NA
+asian_black_tot <- NA
+black_mixed_tot <- NA
+mixed_black_tot <- NA
+hispanic_asian_tot <- NA
+asian_hispanic_tot <- NA
+hispanic_mixed_tot <- NA
+mixed_hispanic_tot <- NA
+asian_mixed_tot <- NA
+mixed_asian_tot <- NA
+white_white_tot <- NA
+black_black_tot <- NA
+hispanic_hispanic_tot <- NA
+asian_asian_tot <- NA
+mixed_mixed_tot <- NA
+
+
+
+## generating degree distributions into groups
+### Degree Vectors 
+
+# adj_mat subset from <racial group1> to <racial group2> multiplied by a vector of ones the length of <racial group2> produces a vector the length of <racial group1> without the total  number of edges for each node in <racial group1> to <racial group2> ##### this is the degree distribution from <racial group1> to <racial group2> 
+  white_black_deg <- white_black %*% black_col 
+  white_hispanic_deg <- white_hispanic %*% hispanic_col
+  white_asian_deg <- white_asian %*% asian_col
+  white_mixed_deg <- white_mixed %*% mixed_col
+  white_white_deg <- white_white %*% white_col
+  
+  black_white_deg <- black_white %*% white_col
+  black_hispanic_deg <- black_hispanic %*% hispanic_col
+  black_asian_deg <- black_asian %*% asian_col
+  black_mixed_deg <- black_mixed %*% mixed_col
+  black_black_deg <- black_black %*% black_col
+  
+  hispanic_white_deg <- hispanic_white %*% white_col
+  hispanic_black_deg <- hispanic_black %*% black_col
+  hispanic_asian_deg <- hispanic_asian %*% asian_col
+  hispanic_mixed_deg <- hispanic_mixed %*% mixed_col
+  hispanic_hispanic_deg <- hispanic_hispanic %*% hispanic_col
+ 
+  asian_white_deg <- asian_white %*% white_col
+  asian_black_deg <- asian_black %*% black_col
+  asian_hispanic_deg <- asian_hispanic %*% hispanic_col
+  asian_mixed_deg <- asian_mixed %*% mixed_col
+  asian_asian_deg <- asian_asian %*% asian_col
+  
+  mixed_white_deg <- mixed_white %*% white_col
+  mixed_black_deg <- mixed_black %*% black_col
+  mixed_hispanic_deg <- mixed_hispanic %*% hispanic_col
+  mixed_asian_deg <- mixed_asian %*% asian_col
+  mixed_mixed_deg <- mixed_mixed %*% mixed_col
+
+### Degree totals   
+  ### Summing the degree distribution from <racial group1> to <racial group2> gives the total number of edges from <racial group1> to <racial group2>
+  white_black_tot <- sum(white_black_deg)  
+  white_hispanic_tot <- sum(white_hispanic_deg)
+  white_asian_tot <- sum(white_asian_deg)
+  white_mixed_tot <- sum(white_mixed_deg)
+  white_white_tot <- sum(white_white_deg)
+  
+  black_white_tot <- sum(black_white_deg)
+  black_hispanic_tot <- sum(black_hispanic_deg)
+  black_asian_tot <- sum(black_asian_deg)
+  black_mixed_tot <- sum(black_mixed_deg)
+  black_black_tot <- sum(black_black_deg)
+  
+  hispanic_white_tot <- sum(hispanic_white_deg)
+  hispanic_black_tot <- sum(hispanic_black_deg)
+  hispanic_asian_tot <- sum(hispanic_asian_deg)
+  hispanic_mixed_tot <- sum(hispanic_mixed_deg)
+  hispanic_hispanic_tot <- sum(hispanic_hispanic_deg)
+
+  asian_white_tot <- sum(asian_white_deg)
+  asian_black_tot <- sum(asian_black_deg)
+  asian_hispanic_tot <- sum(asian_hispanic_deg)
+  asian_mixed_tot <- sum(asian_mixed_deg)
+  asian_asian_tot <- sum(asian_asian_deg)
+  
+  mixed_white_tot <- sum(mixed_white_deg)
+  mixed_black_tot <- sum(mixed_black_deg)
+  mixed_hispanic_tot <- sum(mixed_hispanic_deg)
+  mixed_asian_tot <- sum(mixed_asian_deg)
+  mixed_mixed_tot <- sum(mixed_mixed_deg)
+  
+  
+### Generate a table of total out-degree from one racial group to another racial group
+type2_df <- data.frame(graph = graph_set$num, 
+                         W2B = white_black_tot, 
+                         W2H = white_hispanic_tot, 
+                         W2A = white_asian_tot, 
+                         W2M = white_mixed_tot,
+                         W2W = white_white_tot,
+                         B2W = black_white_tot, 
+                         B2H = black_hispanic_tot, 
+                         B2A = black_asian_tot, 
+                         B2M = black_mixed_tot, 
+                         B2B = black_black_tot,
+                         H2W = hispanic_white_tot, 
+                         H2B = hispanic_black_tot, 
+                         H2A = hispanic_asian_tot, 
+                         H2M = hispanic_mixed_tot,
+                         H2H = hispanic_hispanic_tot,
+                         A2W = asian_white_tot, 
+                         A2B = asian_black_tot, 
+                         A2H = asian_hispanic_tot, 
+                         A2M = asian_mixed_tot, 
+                         A2A = asian_asian_tot,
+                         M2W = mixed_white_tot, 
+                         M2B = mixed_black_tot, 
+                         M2H = mixed_hispanic_tot,
+                         M2A = mixed_asian_tot,
+                         M2M = mixed_mixed_tot)
+
+### Turn dataframe into matrix - with totals signifying the number of edges going from row to column
+group <- c("white", "black", "hispanic", "asian", "mixed") 
+white <- c(type2_df$W2W, type2_df$B2W, type2_df$H2W, type2_df$A2W, type2_df$M2W)
+black <- c(type2_df$W2B, type2_df$B2B , type2_df$H2B, type2_df$A2B, type2_df$M2B)
+hispanic <- c(type2_df$W2H, type2_df$B2H, type2_df$H2H, type2_df$A2H, type2_df$M2H)
+asian <- c(type2_df$W2A, type2_df$B2A, type2_df$H2A, type2_df$A2A, type2_df$M2A)
+mixed <- c(type2_df$W2M, type2_df$B2M, type2_df$H2M, type2_df$A2M, type2_df$M2M)
+type2_table <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed)
+
+type2_table
+
+
+```
+## Normalized Cross-Group Out-Degree
+```{r}
+
+### Produce table that is cross-group outdegree normalized by out-group population
+norm_type2 <- data.frame(num = graph_set$num, 
+                                     W2B = white_black_tot/graph_set$black_pop, 
+                                     B2W = black_white_tot/graph_set$white_pop, 
+                                     W2H = white_hispanic_tot/graph_set$hispanic_pop,
+                                     H2W = hispanic_white_tot/graph_set$white_pop,
+                                     W2A = white_asian_tot/graph_set$asian_pop, 
+                                     A2W = asian_white_tot/graph_set$white_pop, 
+                                     W2M = white_mixed_tot/graph_set$mixed_pop, 
+                                     M2W = mixed_white_tot/graph_set$white_pop, 
+                                     B2H = black_hispanic_tot/graph_set$hispanic_pop, 
+                                     H2B = hispanic_black_tot/graph_set$black_pop,
+                                     B2A = black_asian_tot/graph_set$asian_pop, 
+                                     A2B = asian_black_tot/graph_set$black_pop,
+                                     B2M = black_mixed_tot/graph_set$mixed_pop, 
+                                     M2B = mixed_black_tot/graph_set$black_pop, 
+                                     H2A = hispanic_asian_tot/graph_set$asian_pop,
+                                     A2H = asian_hispanic_tot/graph_set$hispanic_pop,
+                                     H2M = hispanic_mixed_tot/graph_set$mixed_pop, 
+                                     M2H = mixed_hispanic_tot/graph_set$hispanic_pop,
+                                     A2M = asian_mixed_tot/graph_set$mixed_pop,  
+                                     M2A = mixed_asian_tot/graph_set$asian_pop, 
+                                     W2W = white_white_tot/graph_set$white_pop, 
+                                     B2B = black_black_tot/graph_set$black_pop, 
+                                     H2H = hispanic_hispanic_tot/graph_set$hispanic_pop, 
+                                     A2A = asian_asian_tot/graph_set$asian_pop,
+                                     M2M = mixed_mixed_tot/graph_set$mixed_pop)
+
+
+## Normalized Table 
+group <- c("white", "black", "hispanic", "asian", "mixed") 
+white <- c(norm_type2$W2W, norm_type2$B2W, norm_type2$H2W, norm_type2$A2W, norm_type2$M2W)
+black <- c(norm_type2$W2B, norm_type2$B2B , norm_type2$H2B, norm_type2$A2B, norm_type2$M2B)
+hispanic <- c(norm_type2$W2H, norm_type2$B2H, norm_type2$H2H, norm_type2$A2H, norm_type2$M2H)
+asian <- c(norm_type2$W2A, norm_type2$B2A, norm_type2$H2A, norm_type2$A2A, norm_type2$M2A)
+mixed <- c(norm_type2$W2M, norm_type2$B2M, norm_type2$H2M, norm_type2$A2M, norm_type2$M2M)
+norm_type2_table <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed)
+
+max <- c()
+min <- c()
+stat_rate <- c()
+for(i in 1:nrow(norm_type2_table)){
+  max[i] <- max(norm_type2_table[i,2:6], na.rm = T)
+  min[i] <- min(norm_type2_table[i,2:6], na.rm = T)
+  stat_rate[i] <- min[i]/max[i] # Calculate statistical rate
+}
+
+norm_type2_table <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed, max = max, min = min, stat_rate = stat_rate)
+
+norm_type2_table
+
+```
+
+### Type 1 Comparison Metric 
+```{r}
+### AVERAGE OUT-DEGREE Type 1 Measure 
+
+#Generate table of total out degree for each group
+out_df <- type2_table %>% select(white, black, hispanic, asian, mixed) %>% summarize(w_o_deg = sum(white), b_o_deg = sum(black), h_o_deg = sum(hispanic), a_o_deg = sum(asian), m_o_deg = sum(mixed))
+
+#Divide these totals for each group by each group's population -- AVG OUT-Degree
+out_df$w_o_deg <- out_df$w_o_deg/graph_set$white_pop
+out_df$b_o_deg <- out_df$b_o_deg/graph_set$black_pop
+out_df$h_o_deg <- out_df$h_o_deg/graph_set$hispanic_pop
+out_df$a_o_deg <- out_df$a_o_deg/graph_set$asian_pop
+out_df$m_o_deg <- out_df$m_o_deg/graph_set$mixed_pop
+
+max <- NA
+min <- NA
+stat_rate <- NA
+
+  max <- max(out_df, na.rm = T)
+  min <- min(out_df, na.rm = T)
+  stat_rate <- min/max ### Calculate Statistical Rate
+  out_df$stat_rate <- stat_rate 
+  
+  out_df
+
+```
+
+
+### Chord Diagram 
+```{r}
+
+library(circlize)
+
+## Generate variables that are out-degree from <racial group1> to <racial group2> normalized by the size of <racial group1> multiplied by size of <racial group2>.  
+## This is effectively the number of edges out of the number of possible edges (or the probability of an edge from <racial group1> to <racial group2>)
+wb <- white_black_tot/(graph_set$black_pop*graph_set$white_pop)
+bw <- black_white_tot/(graph_set$white_pop*graph_set$black_pop)
+bw <- black_white_tot/(graph_set$white_pop*graph_set$black_pop)
+wh <- white_hispanic_tot/(graph_set$hispanic_pop*graph_set$white_pop)
+hw <- hispanic_white_tot/(graph_set$white_pop*graph_set$hispanic_pop)
+wa <- white_asian_tot/(graph_set$asian_pop*graph_set$white_pop)
+aw <- asian_white_tot/(graph_set$white_pop*graph_set$asian_pop)
+wm <- white_mixed_tot/(graph_set$mixed_pop*graph_set$white_pop)
+mw <- mixed_white_tot/(graph_set$white_pop*graph_set$mixed_pop)
+bh <- black_hispanic_tot/(graph_set$hispanic_pop*graph_set$black_pop)
+hb <- hispanic_black_tot/(graph_set$black_pop*graph_set$hispanic_pop)
+ba <- black_asian_tot/(graph_set$asian_pop*graph_set$black_pop)
+ab <- asian_black_tot/(graph_set$black_pop*graph_set$asian_pop)
+bm <- black_mixed_tot/(graph_set$mixed_pop*graph_set$black_pop)
+mb <- mixed_black_tot/(graph_set$black_pop*graph_set$mixed_pop)
+ha <- hispanic_asian_tot/(graph_set$asian_pop*graph_set$hispanic_pop)
+ah <- asian_hispanic_tot/(graph_set$hispanic_pop*graph_set$asian_pop)
+hm <- hispanic_mixed_tot/(graph_set$mixed_pop*graph_set$hispanic_pop)
+mh <- mixed_hispanic_tot/(graph_set$hispanic_pop*graph_set$mixed_pop)
+am <- asian_mixed_tot/(graph_set$mixed_pop*graph_set$asian_pop)
+ma <- mixed_asian_tot/(graph_set$asian_pop*graph_set$mixed_pop)
+ww <- white_white_tot/(graph_set$white_pop*graph_set$white_pop)
+bb <- black_black_tot/(graph_set$black_pop*graph_set$black_pop)
+hh <- hispanic_hispanic_tot/(graph_set$hispanic_pop*graph_set$hispanic_pop) 
+aa <- asian_asian_tot/(graph_set$asian_pop*graph_set$asian_pop)
+mm <- mixed_mixed_tot/(graph_set$mixed_pop*graph_set$mixed_pop)
+
+
+## Create dataframe with these probabilities 
+norm_type2b <- data.frame(num = graph_set$num, 
+                                     W2B = wb,
+                                     B2W = bw,
+                                     W2H = wh,
+                                     H2W = hw,
+                                     W2A = wa,
+                                     A2W = aw,
+                                     W2M = wm,
+                                     M2W = mw,
+                                     B2H = bh,
+                                     H2B = hb,
+                                     B2A = ba,
+                                     A2B = ab,
+                                     B2M = bm,
+                                     M2B = mb,
+                                     H2A = ha,
+                                     A2H = ah,
+                                     H2M = hm,
+                                     M2H = mh,
+                                     A2M = am,
+                                     M2A = ma,
+                                     W2W = ww,
+                                     B2B = bb,
+                                     H2H = hh,
+                                     A2A = aa,
+                                     M2M = mm)
+
+
+## Turn datafram into matrix of values - probabilities of an edge from row group to column group. 
+group <- c("white", "black", "hispanic", "asian", "mixed") 
+white <- c(norm_type2b$W2W, norm_type2b$B2W, norm_type2b$H2W, norm_type2b$A2W, norm_type2b$M2W)
+black <- c(norm_type2b$W2B, norm_type2b$B2B , norm_type2b$H2B, norm_type2b$A2B, norm_type2b$M2B)
+hispanic <- c(norm_type2b$W2H, norm_type2b$B2H, norm_type2b$H2H, norm_type2b$A2H, norm_type2b$M2H)
+asian <- c(norm_type2b$W2A, norm_type2b$B2A, norm_type2b$H2A, norm_type2b$A2A, norm_type2b$M2A)
+mixed <- c(norm_type2b$W2M, norm_type2b$B2M, norm_type2b$H2M, norm_type2b$A2M, norm_type2b$M2M)
+norm_type2b_table <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed)
+
+max <- c()
+min <- c()
+stat_rate <- c()
+for(i in 1:nrow(norm_type2b_table)){
+  max[i] <- max(norm_type2b_table[i,2:6], na.rm = T)
+  min[i] <- min(norm_type2b_table[i,2:6], na.rm = T)
+  stat_rate[i] <- min[i]/max[i] # calculate statistical rate 
+  ## verify this to be the same as the prior normalized measure from norm_type2_table
+}
+
+norm_type2b_table <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed, max = max, min = min, stat_rate = stat_rate)
+
+norm_type2b_table
+
+### CREATE CHORD DIAGRAM USING TABLE
+
+### table for diagram
+data <- norm_type2b_table
+
+### create matrix out of table
+data_m <- data[,2:6]
+data_m <- as.matrix(data_m)
+data_m
+
+### Name matrix 
+rownames(data_m) <- c("white-out", "black-out", "hispanic-out", "asian-out", "mixed-out")
+colnames(data_m) <- c("white-in", "black-in", "hispanic-in", "asian-in", "mixed-in")
+
+
+
+### color scheme
+colors = c("#3478b2", "#f18534", "#519f45", "#c73a32", "#f1cb45")
+
+## Set up color_df
+row <- sort(rep(rownames(data_m), 5))
+col <- rep(colnames(data_m), 5)
+color <- sort(rep(colors, 5))
+
+## color for groups and links
+color_df <- data.frame(row = row,col = col, color = color)
+
+## color for borders
+color_df2 <- data.frame(row = row, col = col, color = "black")
+
+color2 <- sort(rep(unique(color_df$color),2))
+names(color2) <- sort(c(rownames(data_m), colnames(data_m)))
+order = names(color2)
+
+## named vector for grouping in and out 
+group <- sort(rep(1:5, 2))
+names(group) <- order
+
+
+### chord diagram
+
+chordDiagramFromMatrix(data_m, 
+                       grid.col = color2, 
+                       transparency = 0.3, 
+                       col = color_df, 
+                       grid.border = "black",
+                       order = order, 
+                       directional = 1, 
+                       direction.type = c("diffHeight","arrows"),
+                       annotationTrack = c("name", "grid"),
+                       link.border = color_df2, 
+                       link.lwd = 0.5,
+                       link.target.prop = TRUE, 
+                       link.arr.width = 0.1,
+                       link.arr.length = 0.15,
+                       group = group, 
+                       big.gap = 20,
+                       small.gap = 2)
+
+```
+
+
+### Unique Cross-Group Ties (Remark 4.1)
+```{r}
+
+### Variant of measure above where edges are non-redundant
+
+### Same set up as before - degree from <racial group1> to <racial group2>
+### calculate number of non-redundant nodes 
+
+## Initialize variables 
+tww <- NA
+twb <- NA
+twh <- NA
+twa <- NA
+twm <- NA
+tbw <- NA
+tbb <- NA
+tbh <- NA
+tba <- NA
+tbm <- NA
+thw <- NA
+thb <- NA
+thh <- NA
+tha <- NA
+thm <- NA
+taw <- NA
+tab <- NA
+tah <- NA
+taa <- NA
+tam <- NA
+tmw <- NA
+tmb <- NA
+tmh <- NA
+tma <- NA
+tmm <- NA
+
+### The degree distribution of edges from white to black is the transpose of the white_black adjacency matrix, multiplied by a column of 1s the length of white.  
+##transpose(group1_group2) multiplied times group1 column of 1s
+tww <- t(white_white) %*% white_col
+twb <- t(white_black) %*% white_col
+twh <- t(white_hispanic) %*% white_col
+twa <- t(white_asian) %*% white_col
+twm <- t(white_mixed) %*% white_col
+
+tbw <- t(black_white) %*% black_col
+tbb <- t(black_black) %*% black_col
+tbh <- t(black_hispanic) %*% black_col
+tba <- t(black_asian) %*% black_col
+tbm <- t(black_mixed) %*% black_col
+
+thw <- t(hispanic_white) %*% hispanic_col
+thb <- t(hispanic_black) %*% hispanic_col
+thh <- t(hispanic_hispanic) %*% hispanic_col
+tha <- t(hispanic_asian) %*% hispanic_col
+thm <- t(hispanic_mixed) %*% hispanic_col
+
+taw <- t(asian_white) %*% asian_col
+tab <- t(asian_black) %*% asian_col
+tah <- t(asian_hispanic) %*% asian_col
+taa <- t(asian_asian) %*% asian_col
+tam <- t(asian_mixed) %*% asian_col
+
+tmw <- t(mixed_white) %*% mixed_col
+tmb <- t(mixed_black) %*% mixed_col
+tmh <- t(mixed_hispanic) %*% mixed_col
+tma <- t(mixed_asian) %*% mixed_col
+tmm <- t(mixed_mixed) %*% mixed_col
+
+# number of non-redundant edges from <racial group1> to <racial group2> is the number of nodes in <racial group2> with 1 or more edges from <racial group1>
+
+white_white_NR <- length(tww[tww >= 1]) 
+white_black_NR <- length(twb[twb >= 1]) 
+white_hispanic_NR <- length(twh[twh >= 1]) 
+white_asian_NR <- length(twa[twa >= 1]) 
+white_mixed_NR <- length(twm[twm >= 1]) 
+
+black_white_NR <- length(tbw[tbw >= 1]) 
+black_black_NR <- length(tbb[tbb >= 1]) 
+black_hispanic_NR <- length(tbh[tbh >= 1]) 
+black_asian_NR <- length(tba[tba >= 1]) 
+black_mixed_NR <- length(tbm[tbm >= 1]) 
+
+hispanic_white_NR <- length(thw[thw >= 1]) 
+hispanic_black_NR <- length(thb[thb >= 1]) 
+hispanic_hispanic_NR <- length(thh[thh >= 1]) 
+hispanic_asian_NR <- length(tha[tha >= 1]) 
+hispanic_mixed_NR <- length(thm[thm >= 1]) 
+
+asian_white_NR <- length(taw[taw >= 1]) 
+asian_black_NR <- length(tab[tab >= 1]) 
+asian_hispanic_NR <- length(tah[tah >= 1]) 
+asian_asian_NR <- length(taa[taa >= 1]) 
+asian_mixed_NR <- length(tam[tam >= 1]) 
+
+mixed_white_NR <- length(tmw[tmw >= 1]) 
+mixed_black_NR <- length(tmb[tmb >= 1]) 
+mixed_hispanic_NR <- length(tmh[tmh >= 1]) 
+mixed_asian_NR <- length(tma[tma >= 1]) 
+mixed_mixed_NR <- length(tmm[tmm >= 1]) 
+
+
+## Creating a data frame of these values 
+
+type2_NR <- data.frame(graph = graph_set$num, 
+                       W2B = white_black_NR, 
+                       W2H = white_hispanic_NR, 
+                       W2A = white_asian_NR, 
+                       W2M = white_mixed_NR,
+                       W2W = white_white_NR,
+                       B2W = black_white_NR, 
+                       B2H = black_hispanic_NR, 
+                       B2A = black_asian_NR, 
+                       B2M = black_mixed_NR, 
+                       B2B = black_black_NR,
+                       H2W = hispanic_white_NR, 
+                       H2B = hispanic_black_NR, 
+                       H2A = hispanic_asian_NR, 
+                       H2M = hispanic_mixed_NR,
+                       H2H = hispanic_hispanic_NR,
+                       A2W = asian_white_NR, 
+                       A2B = asian_black_NR, 
+                       A2H = asian_hispanic_NR, 
+                       A2M = asian_mixed_NR, 
+                       A2A = asian_asian_NR,
+                       M2W = mixed_white_NR, 
+                       M2B = mixed_black_NR, 
+                       M2H = mixed_hispanic_NR,
+                       M2A = mixed_asian_NR,
+                       M2M = mixed_mixed_NR)
+
+
+
+
+type2_NR
+
+### Creating a normalized data frame, where the number of unique edges is normalized by the size of the group they are coming from
+
+
+## Normalized Table 
+group <- c("white", "black", "hispanic", "asian", "mixed") 
+white <- c(type2_NR$W2W, type2_NR$B2W, type2_NR$H2W, type2_NR$A2W, type2_NR$M2W)
+black <- c(type2_NR$W2B, type2_NR$B2B , type2_NR$H2B, type2_NR$A2B, type2_NR$M2B)
+hispanic <- c(type2_NR$W2H, type2_NR$B2H, type2_NR$H2H, type2_NR$A2H, type2_NR$M2H)
+asian <- c(type2_NR$W2A, type2_NR$B2A, type2_NR$H2A, type2_NR$A2A, type2_NR$M2A)
+mixed <- c(type2_NR$W2M, type2_NR$B2M, type2_NR$H2M, type2_NR$A2M, type2_NR$M2M)
+NR_df <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed)
+
+max <- c()
+min <- c()
+stat_rate <- c()
+for(i in 1:nrow(NR_df)){
+  max[i] <- max(NR_df[i,2:6], na.rm = T)
+  min[i] <- min(NR_df[i,2:6], na.rm = T)
+  stat_rate[i] <- min[i]/max[i] ### calculate statistical rate 
+}
+
+NR_df <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed, max = max, min = min, stat_rate = stat_rate)
+
+NR_df
+
+
+
+
+### CREATE CHORD DIAGRAM USING TABLE
+
+### table for diagram
+data <- NR_df
+
+### create matrix out of table
+data_m <- data[,2:6]
+data_m <- as.matrix(data_m)
+data_m
+
+### Name matrix 
+rownames(data_m) <- c("white-out", "black-out", "hispanic-out", "asian-out", "mixed-out")
+colnames(data_m) <- c("white-in", "black-in", "hispanic-in", "asian-in", "mixed-in")
+
+
+
+### color scheme
+colors = c("#3478b2", "#f18534", "#519f45", "#c73a32", "#f1cb45")
+
+## Set up color_df
+row <- sort(rep(rownames(data_m), 5))
+col <- rep(colnames(data_m), 5)
+color <- sort(rep(colors, 5))
+
+## color for groups and links
+color_df <- data.frame(row = row,col = col, color = color)
+
+## color for borders
+color_df2 <- data.frame(row = row, col = col, color = "black")
+
+color2 <- sort(rep(unique(color_df$color),2))
+names(color2) <- sort(c(rownames(data_m), colnames(data_m)))
+order = names(color2)
+
+## named vector for grouping in and out 
+group <- sort(rep(1:5, 2))
+names(group) <- order
+
+
+### chord diagram
+
+chordDiagramFromMatrix(data_m, 
+                       grid.col = color2, 
+                       transparency = 0.3, 
+                       col = color_df, 
+                       grid.border = "black",
+                       order = order, 
+                       directional = 1, 
+                       direction.type = c("diffHeight","arrows"),
+                       annotationTrack = c("name", "grid"),
+                       link.border = color_df2, 
+                       link.lwd = 0.5,
+                       link.target.prop = TRUE, 
+                       link.arr.width = 0.1,
+                       link.arr.length = 0.15,
+                       group = group, 
+                       big.gap = 20,
+                       small.gap = 2)
+
+```
+
+
+## Undirected Version of Cross-Group Out-Degree (Footnote 6)
+```{r}
+
+  school_att[[24]]$id <- 1:nrow(school_att[[24]])
+  if(length(school_att[[24]]) == 4){
+    colnames(school_att[[24]]) <- c("sex", "race", "grade", "id")
+  }else{
+    colnames(school_att[[24]]) <- c("sex", "race", "grade", "school", "id")
+  }
+  
+g <-  graph_from_edgelist(as.matrix(el[[24]][, 1:2]), directed = F) ### edges set to undirected 
+
+ for(x in 0:5){
+    g <- set_vertex_attr(g, "race", index = school_att[[24]]$id[school_att[[24]]$race == x], x)
+  }
+
+
+### create table that describes each graph 
+c <- NA
+num <- NA
+num_nodes <- NA
+num_edges <- NA
+white <- NA
+black <- NA
+hispanic <- NA
+asian <- NA
+mixed <- NA
+unreported_pop <- NA
+diameter <- NA
+white_pop <- NA
+black_pop <- NA
+hispanic_pop <- NA
+asian_pop <- NA
+mixed_pop <- NA
+
+## Graphs missing data: 1, 35
+## generate group vectors for comparative centrality measures
+
+  c <- paste("graph")
+  num <- 24
+  num_nodes <- length(V(g))
+  num_edges <- length(E(g))
+  white <- length(V(g)[V(g)$race == 1])/length(V(g))
+  black <- length(V(g)[V(g)$race == 2])/length(V(g))
+  hispanic <- length(V(g)[V(g)$race == 3])/length(V(g))
+  asian <- length(V(g)[V(g)$race == 4])/length(V(g))
+  mixed <- length(V(g)[V(g)$race == 5])/length(V(g))
+  white_pop <- length(V(g)[V(g)$race == 1])
+  black_pop <- length(V(g)[V(g)$race == 2])
+  hispanic_pop <- length(V(g)[V(g)$race == 3])
+  asian_pop <- length(V(g)[V(g)$race == 4])
+  mixed_pop <- length(V(g)[V(g)$race == 5])
+  unreported_pop <- length(V(g)[V(g)$race == 0])
+
+
+g_df <- data_frame(c, num, num_nodes, num_edges, white, black, hispanic, asian, mixed, unreported_pop, white_pop, black_pop, hispanic_pop, asian_pop, mixed_pop)
+
+graph_set <- g_df %>% filter(white > 0.1 & black > 0.1 & hispanic > 0.1 & asian > 0.1 & mixed > 0.1)
+graph_set
+
+### set assign graph object to "graph"
+graph <- g
+
+
+#### Initialize vectors/objects 
+white <- NA # vector of white nodes
+black <- NA # vector of black nodes
+hispanic <- NA # vector of hispanic nodes
+asian <- NA # vector of asian nodes
+mixed <- NA # vector of mixed nodes
+g_adj <- NA # adjacency matrix of graph 
+white_black <- NA # subset of adj - white nodes to black nodes 
+black_white <- NA # subset of adj - black nodes to white nodes 
+white_hispanic <- NA # subset of adj - white nodes to hispanic nodes 
+hispanic_white <- NA # subset of adj - hispanic nodes to white nodes 
+white_asian <- NA # subset of adj - white nodes to asian nodes 
+asian_white <- NA # subset of adj - asian nodes to white nodes 
+white_mixed <- NA # subset of adj - white nodes to mixed nodes 
+mixed_white <- NA # subset of adj - mixed nodes to white nodes 
+black_hispanic <- NA # subset of adj - black nodes to hispanic nodes 
+hispanic_black <- NA # subset of adj - hispanic nodes to black nodes 
+black_asian <- NA # subset of adj - black nodes to asian nodes 
+asian_black <- NA # subset of adj - asian nodes to black nodes 
+black_mixed <- NA # subset of adj - black nodes to mixed nodes 
+mixed_black <- NA # subset of adj - mixed nodes to black nodes 
+hispanic_asian <- NA # subset of adj - hispanic nodes to asian  nodes 
+asian_hispanic <- NA # subset of adj - asian nodes to hispanic nodes 
+hispanic_mixed <- NA # subset of adj - hispanic nodes to mixed nodes 
+mixed_hispanic <- NA # subset of adj - mixed nodes to hispanic nodes 
+asian_mixed <- NA # subset of adj - asian nodes to mixed nodes 
+mixed_asian <- NA # subset of adj - mixed nodes to asian nodes 
+white_white <- NA # subset of adj - white nodes to white nodes 
+black_black <- NA # subset of adj - black nodes to black nodes 
+hispanic_hispanic <- NA # subset of adj - hispanic nodes to hispanic nodes 
+asian_asian <- NA # subset of adj - asian nodes to asian nodes 
+mixed_mixed <- NA # subset of adj - mixed nodes to mixed nodes 
+
+  ##vectors of vertices belonging to each racial group
+  white <- V(graph)[V(graph)$race == 1] # set vector of white nodes
+  black <- V(graph)[V(graph)$race == 2] # set vector of black nodes
+  hispanic <- V(graph)[V(graph)$race == 3] # set vector of hispanic nodes
+  asian <- V(graph)[V(graph)$race == 4] # set vector of asian nodes
+  mixed <- V(graph)[V(graph)$race == 5] # set vector of mixed nodes
+  
+  ## adjacency matrix for each graph 
+  graph_adj <- as_adjacency_matrix(graph) # turn graph object into adj_mat
+  g_adj <- as.matrix(graph_adj) # turn adj_mat object into matrix 
+  
+  ##derive bipartite from adjacency matrix
+  white_white <- g_adj[white, white] # adj subset from <racial group>  to <racial group> 
+  black_black <- g_adj[black, black]
+  hispanic_hispanic <- g_adj[hispanic, hispanic]
+  asian_asian <- g_adj[asian, asian]
+  mixed_mixed <- g_adj[mixed, mixed]
+  
+  white_black<- g_adj[white, black]
+  black_white <- g_adj[black, white]
+  
+  white_hispanic <- g_adj[white, hispanic]
+  hispanic_white <- g_adj[hispanic, white]
+  
+  white_asian <- g_adj[white, asian]
+  asian_white <- g_adj[asian, white]
+  
+  white_mixed <- g_adj[white, mixed]
+  mixed_white <- g_adj[mixed, white]
+  
+  black_hispanic <- g_adj[black, hispanic]
+  hispanic_black <- g_adj[hispanic, black]
+  
+  black_asian <- g_adj[black, asian]
+  asian_black <- g_adj[asian, black]
+  
+  black_mixed <- g_adj[black, mixed]
+  mixed_black <- g_adj[mixed, black]
+  
+  hispanic_asian <- g_adj[hispanic, asian]
+  asian_hispanic <- g_adj[asian, hispanic]
+  
+  hispanic_mixed <- g_adj[hispanic, mixed]
+  mixed_hispanic <- g_adj[mixed, hispanic]
+  
+  asian_mixed <- g_adj[asian, mixed]
+  mixed_asian <- g_adj[mixed, asian]
+
+
+### set up group_to_group relations 
+  
+## create vector of 1s for number of columns in bipartite 
+  ## initialize vectors 
+  white_col <- NA
+  black_col <- NA
+  hispanic_col <- NA
+  asian_col <- NA
+  mixed_col <- NA
+  
+  white_col <- rep(1, length(white)) # vector of 1's length of <racial group> pop
+  black_col <- rep(1, length(black))
+  hispanic_col <- rep(1, length(hispanic))
+  asian_col <- rep(1, length(asian))
+  mixed_col <- rep(1, length(mixed))
+
+
+## calculate total out degree for each racial group pair 
+## initialize variables 
+white_black_deg <- NA # <racial group> to <racial group> out-degree for each node
+black_white_deg <- NA
+white_hispanic_deg <- NA
+hispanic_white_deg <- NA
+white_asian_deg <- NA
+asian_white_deg <- NA
+white_mixed_deg <- NA
+mixed_white_deg <- NA
+black_hispanic_deg <- NA
+hispanic_black_deg <- NA
+black_asian_deg <- NA
+asian_black_deg <- NA
+black_mixed_deg <- NA
+mixed_black_deg <- NA
+hispanic_asian_deg <- NA
+asian_hispanic_deg <- NA
+hispanic_mixed_deg <- NA
+mixed_hispanic_deg <- NA
+asian_mixed_deg <- NA
+mixed_asian_deg <- NA
+white_white_deg <- NA
+black_black_deg <- NA
+hispanic_hispanic_deg <- NA
+asian_asian_deg <- NA
+mixed_mixed_deg <- NA
+
+# initialize veriables 
+white_black_tot <- NA #<racial group> to <racial group> total out-degree 
+black_white_tot <- NA
+white_hispanic_tot <- NA
+hispanic_white_tot <- NA
+white_asian_tot <- NA
+asian_white_tot <- NA
+white_mixed_tot <- NA
+mixed_white_tot <- NA
+black_hispanic_tot <- NA
+hispanic_black_tot <- NA
+black_asian_tot <- NA
+asian_black_tot <- NA
+black_mixed_tot <- NA
+mixed_black_tot <- NA
+hispanic_asian_tot <- NA
+asian_hispanic_tot <- NA
+hispanic_mixed_tot <- NA
+mixed_hispanic_tot <- NA
+asian_mixed_tot <- NA
+mixed_asian_tot <- NA
+white_white_tot <- NA
+black_black_tot <- NA
+hispanic_hispanic_tot <- NA
+asian_asian_tot <- NA
+mixed_mixed_tot <- NA
+
+
+
+## generating degree distributions into groups
+### Degree Vectors 
+
+# adj_mat subset from <racial group1> to <racial group2> multiplied by a vector of ones the length of <racial group2> produces a vector the length of <racial group1> without the total  number of edges for each node in <racial group1> to <racial group2> ##### this is the degree distribution from <racial group1> to <racial group2> 
+  white_black_deg <- white_black %*% black_col 
+  white_hispanic_deg <- white_hispanic %*% hispanic_col
+  white_asian_deg <- white_asian %*% asian_col
+  white_mixed_deg <- white_mixed %*% mixed_col
+  white_white_deg <- white_white %*% white_col
+  
+  black_white_deg <- black_white %*% white_col
+  black_hispanic_deg <- black_hispanic %*% hispanic_col
+  black_asian_deg <- black_asian %*% asian_col
+  black_mixed_deg <- black_mixed %*% mixed_col
+  black_black_deg <- black_black %*% black_col
+  
+  hispanic_white_deg <- hispanic_white %*% white_col
+  hispanic_black_deg <- hispanic_black %*% black_col
+  hispanic_asian_deg <- hispanic_asian %*% asian_col
+  hispanic_mixed_deg <- hispanic_mixed %*% mixed_col
+  hispanic_hispanic_deg <- hispanic_hispanic %*% hispanic_col
+ 
+  asian_white_deg <- asian_white %*% white_col
+  asian_black_deg <- asian_black %*% black_col
+  asian_hispanic_deg <- asian_hispanic %*% hispanic_col
+  asian_mixed_deg <- asian_mixed %*% mixed_col
+  asian_asian_deg <- asian_asian %*% asian_col
+  
+  mixed_white_deg <- mixed_white %*% white_col
+  mixed_black_deg <- mixed_black %*% black_col
+  mixed_hispanic_deg <- mixed_hispanic %*% hispanic_col
+  mixed_asian_deg <- mixed_asian %*% asian_col
+  mixed_mixed_deg <- mixed_mixed %*% mixed_col
+
+### Degree totals   
+  ### Summing the degree distribution from <racial group1> to <racial group2> gives the total number of edges from <racial group1> to <racial group2>
+  white_black_tot <- sum(white_black_deg)  
+  white_hispanic_tot <- sum(white_hispanic_deg)
+  white_asian_tot <- sum(white_asian_deg)
+  white_mixed_tot <- sum(white_mixed_deg)
+  white_white_tot <- sum(white_white_deg)
+  
+  black_white_tot <- sum(black_white_deg)
+  black_hispanic_tot <- sum(black_hispanic_deg)
+  black_asian_tot <- sum(black_asian_deg)
+  black_mixed_tot <- sum(black_mixed_deg)
+  black_black_tot <- sum(black_black_deg)
+  
+  hispanic_white_tot <- sum(hispanic_white_deg)
+  hispanic_black_tot <- sum(hispanic_black_deg)
+  hispanic_asian_tot <- sum(hispanic_asian_deg)
+  hispanic_mixed_tot <- sum(hispanic_mixed_deg)
+  hispanic_hispanic_tot <- sum(hispanic_hispanic_deg)
+
+  asian_white_tot <- sum(asian_white_deg)
+  asian_black_tot <- sum(asian_black_deg)
+  asian_hispanic_tot <- sum(asian_hispanic_deg)
+  asian_mixed_tot <- sum(asian_mixed_deg)
+  asian_asian_tot <- sum(asian_asian_deg)
+  
+  mixed_white_tot <- sum(mixed_white_deg)
+  mixed_black_tot <- sum(mixed_black_deg)
+  mixed_hispanic_tot <- sum(mixed_hispanic_deg)
+  mixed_asian_tot <- sum(mixed_asian_deg)
+  mixed_mixed_tot <- sum(mixed_mixed_deg)
+  
+  
+### Generate a table of total out-degree from one racial group to another racial group
+type2_df <- data.frame(graph = graph_set$num, 
+                         W2B = white_black_tot, 
+                         W2H = white_hispanic_tot, 
+                         W2A = white_asian_tot, 
+                         W2M = white_mixed_tot,
+                         W2W = white_white_tot,
+                         B2W = black_white_tot, 
+                         B2H = black_hispanic_tot, 
+                         B2A = black_asian_tot, 
+                         B2M = black_mixed_tot, 
+                         B2B = black_black_tot,
+                         H2W = hispanic_white_tot, 
+                         H2B = hispanic_black_tot, 
+                         H2A = hispanic_asian_tot, 
+                         H2M = hispanic_mixed_tot,
+                         H2H = hispanic_hispanic_tot,
+                         A2W = asian_white_tot, 
+                         A2B = asian_black_tot, 
+                         A2H = asian_hispanic_tot, 
+                         A2M = asian_mixed_tot, 
+                         A2A = asian_asian_tot,
+                         M2W = mixed_white_tot, 
+                         M2B = mixed_black_tot, 
+                         M2H = mixed_hispanic_tot,
+                         M2A = mixed_asian_tot,
+                         M2M = mixed_mixed_tot)
+
+### Turn dataframe into matrix - with totals signifying the number of edges going from row to column
+group <- c("white", "black", "hispanic", "asian", "mixed") 
+white <- c(type2_df$W2W, type2_df$B2W, type2_df$H2W, type2_df$A2W, type2_df$M2W)
+black <- c(type2_df$W2B, type2_df$B2B , type2_df$H2B, type2_df$A2B, type2_df$M2B)
+hispanic <- c(type2_df$W2H, type2_df$B2H, type2_df$H2H, type2_df$A2H, type2_df$M2H)
+asian <- c(type2_df$W2A, type2_df$B2A, type2_df$H2A, type2_df$A2A, type2_df$M2A)
+mixed <- c(type2_df$W2M, type2_df$B2M, type2_df$H2M, type2_df$A2M, type2_df$M2M)
+u_type2_table <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed)
+
+u_type2_table # undirected ties 
+
+
+### Produce table that is cross-group outdegree normalized by out-group population
+norm_type2 <- data.frame(num = graph_set$num, 
+                                     W2B = white_black_tot/graph_set$black_pop, 
+                                     B2W = black_white_tot/graph_set$white_pop, 
+                                     W2H = white_hispanic_tot/graph_set$hispanic_pop,
+                                     H2W = hispanic_white_tot/graph_set$white_pop,
+                                     W2A = white_asian_tot/graph_set$asian_pop, 
+                                     A2W = asian_white_tot/graph_set$white_pop, 
+                                     W2M = white_mixed_tot/graph_set$mixed_pop, 
+                                     M2W = mixed_white_tot/graph_set$white_pop, 
+                                     B2H = black_hispanic_tot/graph_set$hispanic_pop, 
+                                     H2B = hispanic_black_tot/graph_set$black_pop,
+                                     B2A = black_asian_tot/graph_set$asian_pop, 
+                                     A2B = asian_black_tot/graph_set$black_pop,
+                                     B2M = black_mixed_tot/graph_set$mixed_pop, 
+                                     M2B = mixed_black_tot/graph_set$black_pop, 
+                                     H2A = hispanic_asian_tot/graph_set$asian_pop,
+                                     A2H = asian_hispanic_tot/graph_set$hispanic_pop,
+                                     H2M = hispanic_mixed_tot/graph_set$mixed_pop, 
+                                     M2H = mixed_hispanic_tot/graph_set$hispanic_pop,
+                                     A2M = asian_mixed_tot/graph_set$mixed_pop,  
+                                     M2A = mixed_asian_tot/graph_set$asian_pop, 
+                                     W2W = white_white_tot/graph_set$white_pop, 
+                                     B2B = black_black_tot/graph_set$black_pop, 
+                                     H2H = hispanic_hispanic_tot/graph_set$hispanic_pop, 
+                                     A2A = asian_asian_tot/graph_set$asian_pop,
+                                     M2M = mixed_mixed_tot/graph_set$mixed_pop)
+
+
+## Normalized Table 
+group <- c("white", "black", "hispanic", "asian", "mixed") 
+white <- c(norm_type2$W2W, norm_type2$B2W, norm_type2$H2W, norm_type2$A2W, norm_type2$M2W)
+black <- c(norm_type2$W2B, norm_type2$B2B , norm_type2$H2B, norm_type2$A2B, norm_type2$M2B)
+hispanic <- c(norm_type2$W2H, norm_type2$B2H, norm_type2$H2H, norm_type2$A2H, norm_type2$M2H)
+asian <- c(norm_type2$W2A, norm_type2$B2A, norm_type2$H2A, norm_type2$A2A, norm_type2$M2A)
+mixed <- c(norm_type2$W2M, norm_type2$B2M, norm_type2$H2M, norm_type2$A2M, norm_type2$M2M)
+norm_type2_table <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed)
+
+max <- c()
+min <- c()
+stat_rate <- c()
+for(i in 1:nrow(norm_type2_table)){
+  max[i] <- max(norm_type2_table[i,2:6], na.rm = T)
+  min[i] <- min(norm_type2_table[i,2:6], na.rm = T)
+  stat_rate[i] <- min[i]/max[i] # Calculate statistical rate
+}
+
+u_norm_type2_table <- data_frame(group = group, white = white, black = black, hispanic = hispanic, asian = asian, mixed = mixed, max = max, min = min, stat_rate = stat_rate)
+
+u_norm_type2_table
+
+
+### CREATE CHORD DIAGRAM USING TABLE
+
+### table for diagram
+data <- u_norm_type2_table
+
+### create matrix out of table
+data_m <- data[,2:6]
+data_m <- as.matrix(data_m)
+data_m
+
+### Name matrix 
+rownames(data_m) <- c("white-out", "black-out", "hispanic-out", "asian-out", "mixed-out")
+colnames(data_m) <- c("white-in", "black-in", "hispanic-in", "asian-in", "mixed-in")
+
+
+
+### color scheme
+colors = c("#3478b2", "#f18534", "#519f45", "#c73a32", "#f1cb45")
+
+## Set up color_df
+row <- sort(rep(rownames(data_m), 5))
+col <- rep(colnames(data_m), 5)
+color <- sort(rep(colors, 5))
+
+## color for groups and links
+color_df <- data.frame(row = row,col = col, color = color)
+
+## color for borders
+color_df2 <- data.frame(row = row, col = col, color = "black")
+
+color2 <- sort(rep(unique(color_df$color),2))
+names(color2) <- sort(c(rownames(data_m), colnames(data_m)))
+order = names(color2)
+
+## named vector for grouping in and out 
+group <- sort(rep(1:5, 2))
+names(group) <- order
+
+
+### chord diagram
+
+chordDiagramFromMatrix(data_m, 
+                       grid.col = color2, 
+                       transparency = 0.3, 
+                       col = color_df, 
+                       grid.border = "black",
+                       order = order, 
+                       directional = 1, 
+                       direction.type = c("diffHeight","arrows"),
+                       annotationTrack = c("name", "grid"),
+                       link.border = color_df2, 
+                       link.lwd = 0.5,
+                       link.target.prop = TRUE, 
+                       link.arr.width = 0.1,
+                       link.arr.length = 0.15,
+                       group = group, 
+                       big.gap = 20,
+                       small.gap = 2)
+```
+
+
+### How many symmetric edges
+```{r}
+
+
+### Use directed graph of community 24 
+
+  school_att[[24]]$id <- 1:nrow(school_att[[24]])
+  if(length(school_att[[24]]) == 4){
+    colnames(school_att[[24]]) <- c("sex", "race", "grade", "id")
+  }else{
+    colnames(school_att[[24]]) <- c("sex", "race", "grade", "school", "id")
+  }
+  
+  g <-  graph_from_edgelist(as.matrix(el[[24]][, 1:2]), directed = T) ### edges set to undirected 
+
+ for(x in 0:5){
+    g <- set_vertex_attr(g, "race", index = school_att[[24]]$id[school_att[[24]]$race == x], x)
+ }
+
+graph_adj <- as_adjacency_matrix(g) # turn graph object into adj_mat
+g_adj <- as.matrix(graph_adj) # turn adj_mat object into matrix 
+
+
+edges <- length(E(g)) ## total number of edges
+A_sqr <- g_adj %*% g_adj ## the adjacency matrix squared
+symmetric <- 2*sum(diag(A_sqr)) ## two times the adjacency matrix squared equals the number symmetric ties. 
+symmetric/edges ## fraction of symmetric ties over ties 
+
+
+  
+
+
+```
