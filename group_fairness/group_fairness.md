@@ -7,4 +7,4 @@ Abstract: An increasing amount of work studies fairness in socio-technical setti
 
 [Published in Proceedings of the ACM on Human-Computer Interaction, Volume 6, Issue CSCW2, 2022](https://dl.acm.org/doi/abs/10.1145/3555100)
 
-![Proceedings Youtube Presentation](https://www.youtube.com/watch?v=MmvGPqtfr3M)
+[![Proceedings Youtube Presentation](https://github.com/jsachs802/research_overview/blob/main/group_fairness/group_fair_vid.png)](https://www.youtube.com/watch?v=MmvGPqtfr3M)
