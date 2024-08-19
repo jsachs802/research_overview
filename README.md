@@ -36,13 +36,7 @@ The projects below were added to this public repository after their completion. 
 1. [Fair Diffusion](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md): This study examines fairness in information distribution across 14 Ugandan villages, analyzing how network metrics and a new fairness definition affect the spread of political participation technology. While the new metric improves fairness predictions, it reduces efficiency, highlighting the challenge of balancing fairness and efficiency in complex systems.
 
 
-3. [The Tik Tok Self](https://github.com/jsachs802/research_overview/blob/main/tiktokself/tiktok_readme.md)
-   - _Abstract_: The COVID-19 pandemic has shifted many social worlds from in-person interaction to online activity. As a result, people increasingly have the freedom to choose more agreeable everyday environments. While 
-   such freedom has often been associated with negative outcomes – namely, the emergence of “echo-chambers” that corral insensitivity – this data visualization suggests a positive outcome: “flowering-chambers”, where the 
-   freedom has enabled expressions of a truer self. Drawing on an original dataset of TikTok videos, the visualization charts a considerable increase in the number of “coming out” gender identity and sexual orientation 
-   videos during the latter three quarters of 2020. These results suggests that many TikTok users have publicly revealed private aspects of their identities, which we attribute to individuals becoming increasingly 
-   embedded in agreeable online spaces while quarantining or socially distancing. The visualization additionally introduces a publicly available dataset of 4.8 million TikToks to facilitate future research using data 
-   from the platform.
+3. [The Tik Tok Self](https://github.com/jsachs802/research_overview/blob/main/tiktokself/tiktok_readme.md): This study visualizes a rise in "coming out" videos on TikTok during 2020, attributing it to users finding more agreeable online spaces during the pandemic. It highlights the positive impact of online environments in fostering self-expression and introduces a new dataset of 4.8 million TikTok videos for further research.
 
 5. [Embedding Regression](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/embed_reg_readme.md)
    - _Abstract_: How does social media content affect users’ online discourse? Existing scholarship sheds light on how users’ speech can be influenced by several social media features involving content. However, this 
