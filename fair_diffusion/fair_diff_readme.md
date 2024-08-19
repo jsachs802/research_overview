@@ -14,7 +14,7 @@ _NOTE:_ Whenever I do a project, I create a project template which has a specifi
 
 _Calibration_: The first set of scripts are for calibrating diffusion models to empirical network diffusion data.
 
-[Calibration](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/CALIBRATION_DIFFUSION_SIM.R) - this script is used to calibrate the model to the empirical diffusion process. The actual script was run on a high performance computer that uses bash for scheduling. [Calibration2](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/CALIBRATION_DIFFUSION_SIM_Com_Args.R) script can be used with bash and takes arguments for which village (empirical network) to calibrate to from the terminal. The scripts that follow in the calibration process are called by the main calibration script.
+[Calibration Model](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/CALIBRATION_DIFFUSION_SIM.R) - this script is used to calibrate the model to the empirical diffusion process. The actual script was run on a high performance computer (HPC) that uses bash for scheduling. [Calibration2](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/CALIBRATION_DIFFUSION_SIM_Com_Args.R) script can be used with bash and takes arguments for which village (empirical network) to calibrate to from the terminal. The scripts that follow in the calibration process are called by the main calibration script.
 
 [Main Data](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/MAIN_DATA_PAGE.R) - I cannot provide the actual empirical diffusion data, as I it is not mine to make public. But this script shows some of the preprocessing for configuring the empirical network data. 
 
@@ -25,3 +25,19 @@ _Calibration_: The first set of scripts are for calibrating diffusion models to 
 [Moment Evaluation](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/MOMENT_EVAL_FUNCTIONS_E.R) - functions that evaluate the performance of the calibration process (hyperparameter tuning) which produce results for best parameter tuning.
 
 _Strategy_: The second set of scripts allows one to run different seeding strategies on the calibrated models and measure the fairness of the outcomes.
+
+[Fair Strategy Model](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/STRATEGY_MODEL_FAIR_Com_Args.R) - main script for simulating seeding strategies from paper. The script is setup to take a village argument from a bash script (this helped make the code flexible for use on a HPC). 
+
+[Maximizing Strategy Model](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/STRATEGY_MODEL_MAX.R) - script for simulating maximizing strategies from paper.
+
+[Simulator](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/SIMULATOR_FN_FINAL.R) - function that operates the sumulation. 
+
+[Fair Seeding Strategies](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/SEEDING_FN_FAIR_v.3.R) - functions that formulate fair seedings strategies from the paper.
+
+[Maximizing Seeding Strategies](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/STRATEGY_MODEL_MAX.R) - functions that formulate maximizing strategies from the paper.
+
+[Fair Outcomes](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/FAIR_OUTCOMES_v.3.R) - functions that measure the seeding and reach fairness of each fair seeding strategy.
+
+[Maximizing Outcomes](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/MAX_OUTCOMES_ext.R) - functions that measure the seeding and reach fairness of each maximizing seeding strategy.
+
+
