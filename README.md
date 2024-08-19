@@ -38,11 +38,11 @@ The projects below were added to this public repository after their completion. 
    Practical Applications
    Stats: 
    Bib cite
-3. [The Tik Tok Self](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/tiktok_readme.md) - Problem
+3. [The Tik Tok Self](https://github.com/jsachs802/research_overview/blob/main/tiktokself/tiktok_readme.md) - Problem
    Short Description
    Practical Applications
    Bib cite
-4. [Embedding Regression](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/embedding_reg_readme.md) - Problem
+4. [Embedding Regression](https://github.com/jsachs802/research_overview/blob/main/embedding_reg/embedding_reg_readme.md) - Problem
    Short Description
    Practical Applications
    Bib cite
@@ -51,10 +51,10 @@ The projects below were added to this public repository after their completion. 
    Practical Applications
    Stats
    Bib cite
-6. [LLM Project](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/llm_duality_readme.md) - Problem
+6. [LLM Project](https://github.com/jsachs802/research_overview/blob/main/llm_duality/llm_duality_readme.md) - Problem
    Short Description
    Practical Applications
-7. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md) - Problem
+7. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_sampling_readme.md) - Problem
    Short Description
    Practical Applications
 
