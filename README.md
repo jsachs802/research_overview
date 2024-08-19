@@ -33,18 +33,8 @@ The projects below were added to this public repository after their completion. 
 
 ### Academic Research 
 
-1. [Fair Diffusion](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md)
-   - _Abstract_:
-   This research investigates fairness in information spread within 14 distinct Ugandan villages, focusing on
-   the distribution of information about a political participation technology. The study applies a Simulated
-   Method of Moments to assess the impact of different network metrics and fairness definitions on the
-   spread of information across male and female villagers. Initial findings highlight significant differences
-   in the likelihood of achieving fair outcomes with various interventions. Although some fair strategies
-   show slight improvements, they still exhibit low probabilities of fair outcomes. The introduction of a
-   new fairness definition, Seed Average x Coverage Fairness, enhances the prediction of fair outcomes
-   across many network metrics, albeit with a trade-off in the efficiency of information spread. The research
-   underscores the difficulty of controlling outcomes in a complex system, and the dynamics of efficiency
-   and fairness, demonstrating that context plays a vital role for these processes. 
+1. [Fair Diffusion](https://github.com/jsachs802/research_overview/blob/main/fair_diffusion/fair_diff_readme.md): This study examines fairness in information distribution across 14 Ugandan villages, analyzing how network metrics and a new fairness definition affect the spread of political participation technology. While the new metric improves fairness predictions, it reduces efficiency, highlighting the challenge of balancing fairness and efficiency in complex systems.
+
 
 3. [The Tik Tok Self](https://github.com/jsachs802/research_overview/blob/main/tiktokself/tiktok_readme.md)
    - _Abstract_: The COVID-19 pandemic has shifted many social worlds from in-person interaction to online activity. As a result, people increasingly have the freedom to choose more agreeable everyday environments. While 
