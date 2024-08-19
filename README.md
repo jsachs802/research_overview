@@ -98,7 +98,7 @@ suggesting that mitigating sampling bias when collecting social media
 data should be a priority for many studies analyzing online discourse.
 
 #### Other Projects 
-7. [Topic Models & Visualizations](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
+7. [Topic Models & Visualizations](https://github.com/jsachs802/research_overview/blob/main/bert_modeling/bert_model.md) - Problem
    Short Description
    Practical Applications
 8. [College Basketball predictor](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
