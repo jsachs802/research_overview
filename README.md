@@ -69,15 +69,33 @@ We introduce templates for group fairness metrics that account for network struc
 8. [LLM Project](https://github.com/jsachs802/research_overview/blob/main/llm_duality/llm_duality_readme.md)
    - _Abstract_: The development of generative artificial intelligence (genAI) has caused concern about its potential risks, including how its ability to generate human-like texts could affect our shared perception of the social world. Yet, it remains unclear how best to assess and understand the genAI’s influence on our understanding of social reality. Building on insights into the representation of social worlds within texts, we take initial steps towards developing a framework for genAI’s content and its consequences for perceptions of social reality. We demonstrate our “synthetic duality” framework in two parts. First, we show that genAI can create, with minimal guidance, reasonable portrayals of actors and ascribe relational meaning to those actors – virtual social worlds within texts, or “Mondo-Breigers”. Second, we examine how these synthetic documents with interior social worlds affect readers’ view of social reality. We find that they change individuals’ perceptions of actors depicted in the documents, likely by updating individuals’ expectations about the actors and their meanings. However, additional exploratory analyses suggest it is models’ style, not their construction of “Mondo-Breigers”, that might be influencing people’s perceptions. We end with a discussion of theoretical and methodological implications, including how genAI may unsettle structural notions of individuality. Namely, reimagining the duality of individuals and groups could help theorize growing homogeneity in an increasingly genAI-informed world.
 
-  
-   
-Problem
-   Short Description
-   Practical Applications
-12. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
-   Short Description
-   Practical Applications
-
+12. [Sampling Project](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md)
+    - _Abstract_: Social scientists studying contemporary public debates, discourses, and
+sentiments often turn to social media platforms for data. They typically
+collect these data by querying platforms' application program interfaces
+(APIs) using a term of interest, as well as terms related to the target
+term, or "topic-based sampling". Unfortunately, because of how APIs
+work, this risks introducing bias into the samples, likely resulting in
+inaccurate estimates of how prevalent a discourse is on the platform. We
+introduce and demonstrate an approach to topic-based sampling that
+reduces bias and allows for more reliable inferences about the
+population. Building on theory from animal ecology and previous efforts
+to address social media sampling problems, and using tools from natural
+language processing, we first develop and detail the procedures for our
+"orthogonal sampling approach". The method consists of incorporating
+layers of independence into data collection. It is based on the core idea
+that a discursive space, such as a social media platform, can be treated
+geometrically and thus leveraged to set initial locations for data
+collection to topics that are orthogonal to the topic of interest. After
+explaining our approach, we provide evidence that our approach
+produces samples of a discourse that are representative of the true
+abundance of the discourse. Our results additionally indicate that as the
+samples' sizes increase, so should their representativeness. We also find
+that gathering social media by querying a target term and related terms
+-- a common practice in the scholarship -- can have strong negative
+effects on properties that are characteristics of a representative sample,
+suggesting that mitigating sampling bias when collecting social media
+data should be a priority for many studies analyzing online discourse.
 
 #### Other Projects 
 8. [Topic Models & Visualizations](https://github.com/jsachs802/research_overview/blob/main/orthogonal_sampling/orthogonal_readme.md) - Problem
