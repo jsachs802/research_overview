@@ -1,5 +1,7 @@
 Back to [Main Page](https://github.com/jsachs802/research_overview/blob/main/README.md)
 
+### Creating a Pipeline from an API to SQL and Iterating Commits with Python
+
 I often have a task of pulling data from an API and needing to store it somewhere -- I generally choose an RDBMS. The task is relatively straightforward, but there are a few problems one should be mindful of. Sometimes I'm querying an API with keywords, or in the case below, subreddits, and I don't know how much data the API is going to return. If I suspect that I will be collecting a lot of data, I will want to interate the data into the database, so I don't use up too much memory. Iterating commits to the database also safeguards against API interruptions that can occur. If an iterruption takes place, you might lose data you have in memory, so it's best to store the data in the database instead of holding it in memory. 
 
 I like to setup a database and create a bit of a pipeline from the API to the sql server. 
