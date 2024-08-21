@@ -1,5 +1,7 @@
 Back to [Main Page](https://github.com/jsachs802/research_overview/blob/main/README.md)
 
+### Automating New Data Science Project Setups
+
 I often have to work on a lot of projects at once, and it becomes time consuming to setup each new project with a file directory for R scripts, Python scripts, and data, setup a virtual environment, install some standard libraries, and intialize git. 
 
 An easy way to streamline this process is to setup a bash script that you can run from the terminal to setup new projects. The bash script I use looks like this: 
