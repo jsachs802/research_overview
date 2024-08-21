@@ -1,5 +1,8 @@
 Back to [Main Page](https://github.com/jsachs802/research_overview/blob/main/README.md)
 
+
+### Editing Large .sql Files in the Terminal
+
 For my work, we will occasionally contract some data collection out to a niche service, and they will deliver a large SQL file. Sometimes the service will provide these large .sql files on a scheduled basis (like every month), and there can be inconsistencies in the files that prevent you from just updating your database. For one thing, the files will usaully assume that tables will need to be created instead of updated, and the table names in the .sql file might not match the table names in your current database. The files are large, so they can be difficult to open and edit, as they require too much memory.
 
 One solution: use stream editor command which allows you to scroll and make edits, but does not commit the entire file to memory. 
