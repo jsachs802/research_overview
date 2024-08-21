@@ -1,6 +1,6 @@
 Back to [Main Page](https://github.com/jsachs802/research_overview/blob/main/README.md)
 
-'''python
+```python
 
 def get_submissions_from_subreddits(reddit, subreddits, conn):
     """Function to collect submissions given a list of subreddits
@@ -42,5 +42,5 @@ def get_submissions_from_subreddits(reddit, subreddits, conn):
     cur.close() # Close cursor object
     conn.close() # Close connection object
 
-'''
+```
 
