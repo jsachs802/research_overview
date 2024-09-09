@@ -15,6 +15,5 @@ This work is ongoing. No manuscript yet to link to. It comprises a number of pro
 
 #### Visualizations
 
-[Topic Communities Visual](https://communications-project.s3.us-east-2.amazonaws.com/para_embedding_visualization_with_labels.html) - visualization of topic communities across information channels.
+[Topic Communities Visual](https://communications-project.s3.us-east-2.amazonaws.com/para_embedding_visualization_09_03.html) - visualization of topic communities across information channels.
 
-[Community Delineations Visual](https://communications-project.s3.us-east-2.amazonaws.com/para_embedding_visualization_with_boxes.html) - visualization of discourse differences across information channels. 
