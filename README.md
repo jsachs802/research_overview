@@ -1,4 +1,4 @@
-# A Showcase of Selected Research 
+# Projects and Selected Research
 
 Welcome to Jeff Sachs's public github repository! 
 
